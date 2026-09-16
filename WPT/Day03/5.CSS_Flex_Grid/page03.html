@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>display</title>
+    <style>
+        .container {
+            background-color: antiquewhite;
+            display: flex;
+            /* it works only with display:flex */
+            /* justify-content: center; */
+            /* justify-content: space-around; */
+            /* justify-content: space-evenly; */
+            justify-content: space-between;
+        }
+
+        .mydiv {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="mydiv" style="background-color: aqua;">1</div>
+        <div class="mydiv" style="background-color: aquamarine;">2</div>
+        <div class="mydiv" style="background-color: blueviolet;">3</div>
+        <div class="mydiv" style="background-color: brown;">4</div>
+    </div>
+</body>
+
+</html>

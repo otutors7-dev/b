@@ -36,14 +36,14 @@ class Employee
         cout<<"Salary : "<<salary<<endl; 
     }
 }; 
-int main()
+int main1()
 {
     Employee e; 
     cout<<sizeof(e);    
     return 0;
 }
 
-int main1()
+int main()
 {
     Person p; 
     cout<<sizeof(p); //28 bytes 

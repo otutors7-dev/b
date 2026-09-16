@@ -48,6 +48,7 @@ int main()
 {
     //Person::fun( ); 
     Employee::fun( ); 
+    cout<<Employee::num;
 }
 
 

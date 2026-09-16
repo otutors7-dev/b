@@ -1,127 +1,144 @@
-#include<iostream> 
-using namespace std; 
-class Shape 
-{
-    protected: 
-    float area; 
-    public: 
-    virtual void calculateArea( void ) = 0; //overrided method  
-    void printArea( void ) // non-overriden function 
-    {
-        cout<<"Area : "<<area<<endl; 
-    }
-}; 
-class Rectangle : public Shape 
-{
-    private: 
-    float length; 
-    float breadth; 
-    public: 
-    void setLength(float length) // non-overrided 
-    {
-        this->length = length; 
-    }
-    void setBreadth(float breadth) //non-overrided 
-    {
-        this->breadth = breadth; 
-    }
-    void calculateArea( void ) // overrided 
-    {
-        this->area = this->length * this->breadth; 
-    }
-}; 
-class Math
-{
-    public: 
-    const static float PI; 
-    static float pow(float base , int index)
-    {
-        float result = 1.0f; 
-        for(int count = 1 ; count <= index ; count++)
-        {
-            result = result * base; 
-        }
-        return result; 
-    }
-}; 
-const float Math :: PI = 3.14f; 
-class Circle : public Shape
-{
-    private: 
-    float radius; 
-    public: 
-    void setRadius(float radius) //non-overrided 
-    {
-        this->radius = radius; 
-    }
-    void calculateArea( void )//overrided 
-    {
-        this->area = Math::PI * Math::pow(this->radius,2); 
-    }
-}; 
-int menuList( void )
-{
-    int choice; 
-    cout<<"0.Exit"<<endl; 
-    cout<<"1.Rectangle"<<endl;
-    cout<<"2.Circle"<<endl;
-    cout<<"Enter the choice : "; 
-    cin>>choice; 
-    return choice;  
-}
-//Global functions 
-void acceptRecord(Shape *shape)
-{
-    if(typeid(*shape) == typeid(Rectangle))
-    {
-        Rectangle *rect = (Rectangle*)shape; //downcasting 
-        float length , breadth; 
-        cout<<"Length : "; 
-        cin>>length; 
-        rect->setLength(length); 
+#include<iostream>
+#include<string>
+using namespace std;
 
-        cout<<"Breadth : "; 
-        cin>>breadth; 
-        rect->setBreadth(breadth); 
-    }
-    else if(typeid(*shape) == typeid(Circle))
-    {
-        Circle *c = (Circle*)shape;//downcasting
-        float radius; 
-        cout<<"Radius : "; 
-        cin>>radius; 
-        c->setRadius(radius);   
-    }
-    else 
-      cout<<"Invalid Shape"<<endl; 
-}
-void printRecord(Shape *shape)
+class Product
 {
-    shape->printArea( ); 
+private:
+    int id;
+    string title;
+    double price;
+    double discount;
+
+public:
+    Product() : id(0), title(""), price(0.0), discount(0.0)
+    {}
+    Product(int id, string title, double price, double discount)
+        : id(id), title(title), price(price), discount(discount)
+    {}
+
+    double getFinalPrice()
+    {
+        return price - (price * discount / 100);
+    }
+
+    virtual void display()
+    {
+        cout << "ID: " << id << ", Title: " << title
+             << ", Price: " << price << ", Discount: " << discount << "%"
+             << ", Final Price: " << getFinalPrice() << endl;
+    }
+
+    virtual ~Product()
+    {}
+};
+
+class Book : public Product
+{
+private:
+    string author;
+
+public:
+    Book() : author("")
+    { }
+
+    Book(int id, string title, string author, double price)
+        : Product(id, title, price, 10.0), author(author)
+    { }
+
+    void display()
+    {
+        cout << "[Book] ";
+        Product::display();
+        cout << "    Author: " << author << endl;
+    }
+};
+
+class Tape : public Product
+{
+private:
+    string artist;
+
+public:
+    Tape() : artist("")
+    { }
+
+    Tape(int id, string title, string artist, double price)
+        : Product(id, title, price, 5.0), artist(artist)
+    { }
+
+    void display()
+    {
+        cout << "[Tape] ";
+        Product::display();
+        cout << "    Artist: " << artist << endl;
+    }
+};
+
+int menu()
+{
+    int choice;
+    cout << "0.Exit" << endl;
+    cout << "1. Book" << endl;
+    cout << "2. Tape" << endl;
+    cout << "Enter Choice ";
+    cin >> choice;
+    return choice;
 }
+
 int main()
 {
-    int choice; 
-    while((choice = ::menuList())!=0)
+    Product* arr[3];
+
+    for (int i = 0; i < 3; i++)
     {
-        Shape *shape = NULL; 
-        switch (choice)
+        cout << "\n--- Product " << (i + 1) << " of 3 ---" << endl;
+        int choice = menu();
+
+        int id;
+        string title, sub;
+        double price;
+
+        cout << "Enter ID: ";
+        cin >> id;
+        cout << "Enter Title: ";
+        cin >> title;
+        cout << "Enter Price: ";
+        cin >> price;
+
+        if (choice == 1)
         {
-        case 1: 
-            shape = new Rectangle( ); //upcasting 
-            break;
-        case 2: 
-            shape = new Circle( ); //upcasting 
-            break; 
+            cout << "Enter Author: ";
+            cin >> sub;
+            arr[i] = new Book(id, title, sub, price);
         }
-        if(shape!=NULL)
+        else if (choice == 2)
         {
-            ::acceptRecord(shape); 
-            shape->calculateArea( ); 
-            ::printRecord(shape); 
-            delete shape; 
-            shape = NULL; 
+            cout << "Enter Artist: ";
+            cin >> sub;
+            arr[i] = new Tape(id, title, sub, price);
+        }
+        else
+        {
+            cout << "Invalid, defaulting to Book.\n";
+            arr[i] = new Book(id, title, "Unknown", price);
         }
     }
+
+    double totalBill = 0.0;
+    cout << "\n===== Final Bill =====\n";
+    for (int i = 0; i < 3; i++)
+    {
+        arr[i]->display();
+        totalBill += arr[i]->getFinalPrice();
+    }
+    cout << "\nTotal Bill: " << totalBill << endl;
+
+    for (int i = 0; i < 3; i++)
+    {
+        delete arr[i];
+        arr[i] = nullptr;
+    }
+
     return 0;
 }

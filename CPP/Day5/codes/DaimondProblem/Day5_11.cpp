@@ -88,7 +88,7 @@ int main()
     //D d; 
     //d.printRecord( ); 
     D d1(10,20,30,40); 
-    //d1.printRecord( ); 
+    d1.printRecord( ); 
     cout<<sizeof(d1); // 
     return 0;
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @media screen and (min-width:0px) {
+            body {
+                background-color: antiquewhite;
+            }
+
+            h1 {
+                display: none;
+            }
+
+            h2 {
+                display: none;
+            }
+
+            h3 {
+                display: block;
+            }
+        }
+
+        @media screen and (min-width:520px) {
+            body {
+                background-color: aquamarine;
+            }
+
+            h1,
+            h3 {
+                display: none;
+            }
+
+            h2 {
+                display: block;
+            }
+
+        }
+
+        @media screen and (min-width:900px) {
+            body {
+                background-color: cadetblue;
+            }
+
+            h1 {
+                display: block;
+            }
+
+            h2,
+            h3 {
+                display: none;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Desktop Heading</h1>
+    <h2>Tablet Heading</h2>
+    <h3>Mobile Heading</h3>
+</body>
+
+</html>

@@ -51,14 +51,14 @@ class Employee : public Person // Derived class - child class
 }; 
 //From any constructor of derived class, by default, 
 //base class's parameterless constructor gets called
-int main()
+int main2()
 {
     //Employee e; 
     Employee e("Nilesh",31,1,1000.00); 
     return 0;
 }
 
-int main1()
+int main()
 {
     //Person p; 
     Person p("Sandeep",31); 

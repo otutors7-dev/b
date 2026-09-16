@@ -8,11 +8,9 @@ private:
 public:
     static int num;
     Person(void) : name(""), age(0)
-    {
-    }
+    { }
     Person(string name, int age) : name(name), age(age)
-    {
-    }
+    { }
     void printRecord(void)
     {
         cout << "Name : " << name << endl;
@@ -31,7 +29,7 @@ public:
     Employee(void) : empid(0), salary(0.0)
     {
     }
-    Employee(string name, int age, int empid, double salary) : empid(empid), salary(salary), Person(name, age)
+    Employee(string name, int age, int empid, double salary) : Person(name, age), empid(empid), salary(salary)
     {
     }
 //If implementation of base class member function is logically 
@@ -52,7 +50,7 @@ public:
 //function on object of derived class then preference 
 //is given to the derived class member function. 
 //Here derived class member function hides implementation 
-//of inherited function. This process is called    shadowing. 
+//of inherited function. This process is called *Shadowing*. 
 int main()
 {
     Employee e("Nilesh",31,1,1000.00);

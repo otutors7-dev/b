@@ -35,7 +35,7 @@ class Employee : public Person // Derived class - child class
     {   
         cout<<"Employee( void )"<<endl; 
     }
-    Employee(string name , int age , int empid , double salary) : empid(empid) , salary(salary) , Person(name , age)
+    Employee(string name , int age , int empid , double salary) : Person(name , age), empid(empid) , salary(salary)
     {   
         cout<<"Employee(string name , int age , int empid , double salary)"<<endl; 
     }

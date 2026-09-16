@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th {
+            margin-bottom: 2px;
+            border-bottom: solid 1px rgb(209, 202, 202);
+        }
+
+        .td_tfoot {
+            border-top: solid 1px rgb(209, 202, 202);
+        }
+
+        tbody tr {
+            background-color: rgb(229, 220, 209);
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <table style="width: 100%;">
+        <thead>
+            <tr style="border-bottom: solid 1px;">
+                <th>id</th>
+                <th>name</th>
+                <th>price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Pen</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Pencil</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Book</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Crayons</td>
+                <td>30</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr style="background-color: rgb(227, 68, 57);">
+                <td class="td_tfoot" colspan="2">Total</td>
+                <td class="td_tfoot">105</td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+
+</html>
