@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DOM</title>
+</head>
+
+<body>
+    <h1>This is a header</h1>
+    <div>This is a div</div>
+    <div>
+        <p>This is para 1</p>
+        <p>This is para 2</p>
+    </div>
+    <button onclick="changeHeader()">changeHeader</button>
+    <button onclick="changeDiv()">changeDiv</button>
+    <button onclick="changePara()">changePara</button>
+    <script>
+        function changeHeader() {
+            console.log('button Clicked')
+            const h1 = document.body.firstElementChild
+            h1.innerText = 'Welcome'
+        }
+
+        function changeDiv() {
+            const div = document.body.children[1]
+            console.dir(div)
+            // div.innerText = 'From CPAC'
+            // div.innerText = 'From <b>CPAC</b>'
+            div.innerHTML = 'From <b>CPAC</b>'
+        }
+
+        function changePara() {
+            const paras = document.body.children[2].children
+            paras[0].innerText = 'Phase 2'
+            paras[1].innerText = 'Hinjewadi'
+            paras[1].style.color = 'red'
+            console.dir(paras[1])
+        }
+    </script>
+</body>
+
+</html>

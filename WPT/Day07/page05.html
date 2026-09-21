@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DOM</title>
+</head>
+
+<body>
+    <h1>This is a header</h1>
+    <div class="mydiv">This is a div</div>
+    <div class="mydiv">Full Form</div>
+    <div>
+        <p id="para1">This is para 1</p>
+        <p id="para2">This is para 2</p>
+    </div>
+    <button onclick="changeHeader()">changeHeader</button>
+    <button onclick="changeDiv()">changeDiv</button>
+    <button onclick="changePara()">changePara</button>
+    <script>
+        function changeHeader() {
+            const arr_h1 = document.getElementsByTagName('h1')
+            arr_h1[0].innerText = 'welcome'
+        }
+
+        function changeDiv() {
+            const arr_div = document.getElementsByClassName('mydiv')
+            console.dir(arr_div)
+            arr_div[0].innerHTML = 'From <b>CPAC</b>'
+            arr_div[1].innerText = 'Certificate Program in Advanced Computing'
+        }
+
+        function changePara() {
+            const p1 = document.getElementById('para1')
+            const p2 = document.getElementById('para2')
+            console.dir(p1)
+            console.dir(p2)
+
+            p1.innerText = 'Phase 2'
+            p2.innerText = 'Hinjewadi'
+            p2.style.color = 'red'
+        }
+    </script>
+</body>
+
+</html>
