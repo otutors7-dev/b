@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="internalLibrary.js"></script>
+
+</head>
+
+<body>
+    <input type="number" placeholder="enter emp id" id="input_empid">
+    <button onclick="getEmployeeDetails()">Display Employee Record</button>
+    <script>
+        function getEmployeeDetails() {
+            const empid = document.getElementById('input_empid').value
+            searchEmployee(empid, (emp) => {
+                if (emp) {
+                    console.log(emp)
+                    searchDepartment(emp.deptno, (dept) => {
+                        if (dept) {
+                            console.log(dept)
+                        }
+                        else
+                            console.log('dept not found')
+                    })
+                }
+                else
+                    console.log('Employee not found...')
+            })
+        }
+    </script>
+</body>
+
+</html>

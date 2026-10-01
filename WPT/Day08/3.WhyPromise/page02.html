@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="internalLibraryPromiseBased.js"></script>
+
+</head>
+
+<body>
+    <input type="number" placeholder="enter emp id" id="input_empid">
+    <button onclick="getEmployeeDetails()">Display Employee Record</button>
+    <script>
+        function getEmployeeDetails() {
+            const empid = document.getElementById('input_empid').value
+            searchEmployee(empid)
+                .then(emp => {
+                    console.log(emp)
+                    searchDepartment(emp.deptno)
+                        .then(dept => console.log(dept))
+                        .catch(error => console.log(error))
+                })
+                .catch(error => console.log(error))
+
+        }
+    </script>
+</body>
+
+</html>

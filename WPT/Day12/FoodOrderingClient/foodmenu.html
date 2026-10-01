@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body onload="getFoodMenu()">
+    <a class="btn btn-neutral m-2" href="addfood.html">Add Food</a>
+    <div class="flex gap-2" id="root">
+
+    </div>
+    <script>
+        async function getFoodMenu() {
+            const root = document.getElementById('root')
+            try {
+                const response = await fetch('http://localhost:4000/food/menu')
+                const result = await response.json()
+                console.log(result)
+                if (result.status == 'success') {
+                    const foodMenu = result.data
+                    for (f of foodMenu) {
+                        const imageUrl = "http://localhost:4000/foodimage/" + f.image
+                        const card = `
+                                <div class="card bg-base-100 w-96 shadow-sm m-2">
+                                    <figure>
+                                        <img src=${imageUrl} alt="foodimage" />
+                                    </figure>
+                                    <div class="card-body">
+                                        <h2 class="card-title">${f.name}</h2>
+                                        <p class="h-20">${f.description}</p>
+                                        <p class="text-lg">Price : Rs. ${f.price}</p>
+                                        <div class="card-actions justify-end">
+                                            <button class="btn btn-primary">Add To Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                        `
+                        root.innerHTML += card
+                    }
+                }
+                else
+                    window.alert(result.error)
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    </script>
+</body>
+
+</html>

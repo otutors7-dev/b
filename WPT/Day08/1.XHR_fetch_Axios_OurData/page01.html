@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div class="w-2/3 m-auto">
+        <button class="btn btn-primary m-2" onclick="getProducts()">Get Products</button>
+        <div class="overflow-x-auto">
+            <table class="table table-zebra">
+                <!-- head -->
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody_products"></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function getProducts() {
+            const tbody = document.getElementById('tbody_products')
+            console.log('products fetching started')
+
+            const xhr = new XMLHttpRequest()
+
+            console.log('Ready State before open - ' + xhr.readyState)
+
+            // configuring the XHR Object
+            xhr.open('GET', 'http://127.0.0.1:5500/data.json')
+
+            console.log('Ready State before send - ' + xhr.readyState)
+
+            // sending the request to the server
+            xhr.send()
+
+            console.log('Ready State after send - ' + xhr.readyState)
+
+
+            xhr.onreadystatechange = () => {
+                console.log('Ready State after receiving response - ' + xhr.readyState)
+                console.log('Status Code after receiving response - ' + xhr.status)
+
+                // readyState- 4 represents the final response
+                // It can be a sucessful response or it can be a failure response
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log('products fetching completed')
+                    const response = xhr.response // response is in the form of string
+                    const data = JSON.parse(response) // convert the reponse in the form of json object
+                    console.log(data)
+                    const products = data.products
+                    console.log(products)
+                    for (p of products) {
+                        const row = `
+                            <tr>
+                                <td>${p.pid}</td>
+                                <td>${p.name}</td>
+                                <td>${p.price}</td>
+                            </tr>`
+                        tbody.innerHTML += row // appending
+                    }
+                }
+            }
+
+            doCalculation()
+        }
+
+        function doCalculation() {
+            console.log('Calculation started')
+            console.log('Result - ' + (62347436 * 32784267))
+            console.log('Calculation completed')
+        }
+    </script>
+</body>
+
+</html>

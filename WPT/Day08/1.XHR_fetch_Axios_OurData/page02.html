@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div class="w-2/3 m-auto">
+        <button class="btn btn-primary m-2" onclick="getProducts()">Get Products</button>
+        <div class="overflow-x-auto">
+            <table class="table table-zebra">
+                <!-- head -->
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody_products"></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function getProducts() {
+            const tbody = document.getElementById('tbody_products')
+            const promise = fetch('http://127.0.0.1:5500/data.json')
+
+            // resolved
+            promise.then((response) => {
+                console.log('Resolved promise')
+                console.log(response)
+                const promise2 = response.json() // converts the readable stream into json object
+                promise2.then((data) => {
+                    console.log(data)
+                    const products = data.products
+                    console.log(products)
+                    for (p of products) {
+                        const row = `
+                            <tr>
+                                <td>${p.pid}</td>
+                                <td>${p.name}</td>
+                                <td>${p.price}</td>
+                            </tr>`
+                        tbody.innerHTML += row // appending
+                    }
+                })
+                promise2.catch((error) => {
+                    console.log(error)
+                })
+            })
+
+            // rejected
+            promise.catch((error) => {
+                console.log('Rejected promise')
+                console.log(error)
+            })
+            doCalculation()
+        }
+
+        function doCalculation() {
+            console.log('Calculation started')
+            console.log('Result - ' + (62347436 * 32784267))
+            console.log('Calculation completed')
+        }
+    </script>
+</body>
+
+</html>

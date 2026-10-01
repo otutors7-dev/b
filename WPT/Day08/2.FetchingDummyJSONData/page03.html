@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dummy JSON API</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.18.0/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <div class="w-6xl m-auto">
+        <button class="btn btn-primary m-2" onclick="getProducts()">Get Products</button>
+        <table class="table table-zebra">
+            <thead>
+                <tr>
+                    <th>#id</th>
+                    <th>image</th>
+                    <th>name</th>
+                    <th>description</th>
+                    <th>price</th>
+                </tr>
+            </thead>
+            <tbody id="tbody_products">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function getProducts() {
+            const tbody = document.getElementById('tbody_products')
+            axios.get('https://dummyjson.com/products')
+                .then(response => {
+                    const products = response.data.products
+                    for (p of products) {
+                        const row = `
+                            <tr>
+                                <th>${p.id}</th>
+                                <td><img width="80" src=${p.thumbnail} alt=""></td>
+                                <td>${p.title}</td>
+                                <td>${p.description}</td>
+                                <td>${p.price}</td>
+                            </tr>
+                                        `
+                        tbody.innerHTML += row
+                    }
+                })
+                .catch(error => console.log(error))
+
+
+        }
+    </script>
+</body>
+
+</html>

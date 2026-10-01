@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.18.0/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="w-2/3 m-auto">
+        <button class="btn btn-primary m-2" onclick="getProducts()">Get Products</button>
+        <div class="overflow-x-auto">
+            <table class="table table-zebra">
+                <!-- head -->
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody_products"></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+
+        async function getProducts() {
+            const tbody = document.getElementById('tbody_products')
+            try {
+                const response = await axios.get('http://127.0.0.1:5500/data.json')
+                console.log(response)
+                // const data = response.data
+                // const products = data.products
+                const products = response.data.products
+                console.log(products)
+                for (p of products) {
+                    const row = `
+                            <tr>
+                                <td>${p.pid}</td>
+                                <td>${p.name}</td>
+                                <td>${p.price}</td>
+                            </tr>`
+                    tbody.innerHTML += row // appending
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+    </script>
+</body>
+
+</html>
