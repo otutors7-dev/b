@@ -38,7 +38,9 @@ public class Program {
 			
 		} while (!op.equals("."));
 	}
-	public static void main1(String[] args) {
+	
+	public static void main1(String[] args) 
+	{
 		String course = "DAC"; 
 		switch (course) {
 		case "DAC":
@@ -49,7 +51,5 @@ public class Program {
 		default:
 			break;
 		}
-
 	}
-
 }

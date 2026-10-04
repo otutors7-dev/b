@@ -6,12 +6,14 @@ class Date{
 	private int month; 
 	private int year; 
 	
-	public Date( ) {
+	public void initDate( ) {
 		System.out.println("public Date( ) ");
 		Calendar c = Calendar.getInstance(); 
 		day = c.get(Calendar.DATE);
 		month = c.get(Calendar.MONTH) + 1; 
 		year = c.get(Calendar.YEAR); 
+		System.out.println(day  + " /" + month + " /" + year);
+
 	}
 	public Date(int day , int month , int year) {
 		System.out.println("public Date(int day , int month , int year)");
@@ -37,12 +39,8 @@ public class Program {
 	public static void main(String[] args) {
 		Date dt1 = new Date(1, 1, 2000); // parameterized ctor 
 		dt1.printDate();
+		dt1.initDate();
 		
 	}
-	public static void main1(String[] args) {
-		Date dt1 = new Date(); //parameterless ctor 
-		dt1.printDate();	
-
-	}
-
+	
 }
