@@ -1,5 +1,5 @@
 package com.sunbeam;
-
+//Array of Objects
 public class Program {
 	public static void main(String[] args) {
 		Human[] arr = new Human[3]; 

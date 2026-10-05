@@ -1,4 +1,5 @@
 package com.sunbeam;
+
 public class Program {
 	public static double arraySum(double[] a) {
 		double sum = 0.0; 
@@ -18,7 +19,7 @@ public class Program {
 		
 		double[] arr3 = {5.1,6.1,7.1}; // named array 
 		double r3 = Program.arraySum(arr2); 
-		System.out.println("r2 : " +r3);
+		System.out.println("r3 : " +r3);
 		
 		double r4 = Program.arraySum(new double[] {1.1,2.1,3.1}); // Annonymous array 
 		System.out.println("r4 : " + r4);

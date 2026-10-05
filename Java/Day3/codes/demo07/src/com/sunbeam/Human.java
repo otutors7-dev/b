@@ -14,7 +14,8 @@ public class Human {
 	}
 	//getters / setters 
 	public void display( ) {
-		System.out.printf("Age : %d weight : %d height : %d",age,weight,height);
+		System.out.printf("Age : %d weight : %d height : %d ",age,weight,height);
+		System.out.println("\n");
 	}
 	
 }

@@ -13,9 +13,12 @@ Example:
 https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html 
   
  */
-public class Program {
 
-	public static void main(String[] args) {
+public class Program 
+{
+
+	public static void main(String[] args) 
+	{
 		int[] arr = { 11 , 1 , 3 , 33 , 12 }; 
 		System.out.println("toString() : " + Arrays.toString(arr));
 		
