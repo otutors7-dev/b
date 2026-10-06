@@ -1,0 +1,41 @@
+package com.sunbeam;
+class A{
+	public void printRecord( ) {
+		System.out.println("A.printRecord()");
+	}
+	public void showRecord( ) {
+		System.out.println("A.showRecord()");
+	}
+	public void show( ) {
+		System.out.println("A.show()");
+	}
+}
+class B extends A{
+	public void printRecord( ) {
+		System.out.println("B.printRecord()");
+	}
+	public void displayRecord( ) {
+		System.out.println("B.displayRecord()");
+	}
+}
+public class Program {
+
+	public static void main(String[] args) {
+		A a = new B(); // upcasting 
+		a.printRecord();
+	}
+	public static void main2(String[] args) {
+		B b = new B(); 
+		//b.printRecord();
+		b.show();
+		
+	}
+	public static void main1(String[] args) {
+		A a = new A(); 
+		a.printRecord();
+		a.showRecord();
+		//a.displayRecord( ); // NOT OK 
+
+	}
+
+}

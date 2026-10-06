@@ -1,0 +1,20 @@
+package com.sunbeam;
+abstract class A{
+	public final void f1( ) { // implementation 100% complete  
+		System.out.println("A.f1()");
+	}
+	public abstract void f2( );  // implementation 100% Incomplete
+		
+	
+	public void f3( ) { // partially complete 
+		System.out.println("A.f3()");
+	}
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

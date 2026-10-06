@@ -1,0 +1,110 @@
+package com.sunbeam;
+
+import java.util.Scanner;
+
+class Shape{
+	protected double area; 
+	public Shape() {
+		// TODO Auto-generated constructor stub
+	}
+	public void calculateArea( ) {
+		//TODO 
+	}
+	public double getArea() {
+		return area;
+	}
+}
+class Rectangle extends Shape{
+	private double length; 
+	private double breadth; 
+	public Rectangle() {
+		// TODO Auto-generated constructor stub
+	}
+	//non-overrided methods 
+	public void setLength(double length) {
+		this.length = length;
+	}
+	public void setBreadth(double breadth) {
+		this.breadth = breadth;
+	}
+	@Override
+	public void calculateArea() {
+		this.area = this.length * this.breadth; 
+	}
+}
+class Circle extends Shape{
+	private double radius; 
+	public Circle() {
+		// TODO Auto-generated constructor stub
+	}
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+	@Override
+	public void calculateArea() {
+		this.area = Math.PI * this.radius * this.radius; 
+	}
+}
+public class Program {
+	public static Scanner sc = new Scanner(System.in); 
+	public static int menuList( ) {
+		System.out.println("0.Exit");
+		System.out.println("1.Rectangle");
+		System.out.println("2.Circle");
+		System.out.println("Enter the choice : ");
+		int choice = sc.nextInt(); 
+		return choice; 
+	}
+	public static void acceptRecord(Shape shape) {
+		if(shape instanceof Rectangle) {
+			Rectangle r = (Rectangle) shape; // downcasting  
+			double length , breadth; 
+			
+			System.out.print("Length : ");
+			length = sc.nextDouble(); 
+			r.setLength(length);
+			
+			System.out.print("Breadth : ");
+			breadth = sc.nextDouble(); 
+			r.setBreadth(breadth);
+		}
+		else if(shape instanceof Circle) {
+			Circle c = (Circle) shape; // downcasting 
+			double radius; 
+			System.out.println("Radius : ");
+			radius = sc.nextDouble(); 
+			c.setRadius(radius);
+		}
+		else 
+			System.out.println("Invalid Shape");
+	}
+	public static void printRecord(Shape shape) {
+		System.out.println("Area : " + shape.getArea());
+	}
+	public static void main(String[] args) {
+		int choice; 
+		while((choice = menuList())!=0) {
+			Shape shape = null; 
+			switch (choice) {
+			case 1:
+				shape = new Rectangle();  // upcasting 
+				break;
+			case 2: 	
+				shape = new Circle(); // upcasting 
+				break; 
+			}
+			if(shape!=null) {
+				Program.acceptRecord(shape);
+				shape.calculateArea();
+				Program.printRecord(shape);
+			}
+		}
+
+	}
+
+}
+
+
+
+
+

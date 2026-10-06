@@ -1,0 +1,18 @@
+package com.sunbeam;
+class Parent{
+	public final void display( ) {
+		System.out.println("Parent.display()");
+	}
+}
+class Child extends Parent{
+	
+}
+public class Program {
+
+	public static void main(String[] args) {
+		Parent p = new Parent(); 
+		p.display();
+
+	}
+
+}

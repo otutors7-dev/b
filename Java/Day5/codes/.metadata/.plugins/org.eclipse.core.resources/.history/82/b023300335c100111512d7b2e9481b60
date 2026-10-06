@@ -1,0 +1,17 @@
+package com.sunbeam;
+class A{
+	public void printRecord( ) {
+		System.out.println("A.printRecord()");
+	}
+	public void showRecord( ) {
+		System.out.println("A.showRecord()");
+	}
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

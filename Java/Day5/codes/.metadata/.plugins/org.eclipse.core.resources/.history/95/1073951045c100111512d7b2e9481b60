@@ -1,0 +1,14 @@
+package com.sunbeam;
+class Time{
+	private int hrs; 
+	private int mins; 
+	private int secs; 
+	public void display( ) {
+		System.out.printf("hrs : %d mins : %d secs : %d",hrs,mins,secs);
+	}
+}
+public class Program {
+	public static void main(String[] args) {
+		
+	}
+}

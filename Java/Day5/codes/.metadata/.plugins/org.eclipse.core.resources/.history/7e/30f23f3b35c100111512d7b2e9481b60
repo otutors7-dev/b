@@ -1,0 +1,26 @@
+package com.sunbeam;
+class A{
+	public void printRecord( ) {
+		System.out.println("A.printRecord()");
+	}
+	public void showRecord( ) {
+		System.out.println("A.showRecord()");
+	}
+}
+class B extends A{
+	public void printRecord( ) {
+		System.out.println("B.printRecord()");
+	}
+	public void displayRecord( ) {
+		System.out.println("B.displayRecord()");
+	}
+}
+public class Program {
+
+	public static void main(String[] args) {
+		A a = new A(); 
+		a.printRecord();
+
+	}
+
+}

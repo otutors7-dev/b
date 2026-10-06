@@ -1,0 +1,23 @@
+package com.sunbeam;
+class Time{
+	private int hrs; 
+	private int mins; 
+	private int secs; 
+	public Time() {
+		// TODO Auto-generated constructor stub
+	}
+	public Time(int hrs, int mins, int secs) {
+		this.hrs = hrs;
+		this.mins = mins;
+		this.secs = secs;
+	}
+
+	public void display( ) {
+		System.out.printf("hrs : %d mins : %d secs : %d",hrs,mins,secs);
+	}
+}
+public class Program {
+	public static void main(String[] args) {
+		
+	}
+}

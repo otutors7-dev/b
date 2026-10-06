@@ -42,6 +42,14 @@ public class Program {
 		c1.setRadius(r);
 		//System.out.println("Area : " + c1.calcArea());
 		//System.out.println("Peri : " + c1.calcPeri());
+		
+		//"when reference is final then only left part is made final"
+		//When a reference variable is declared final, 
+		//the reference cannot be reassigned to another object, 
+		//but the state of the object it points to can still be modified.
+		//An analogy: final on a reference is like writing down 
+		//a house's address permanently. You can't change which house
+		//the address refers to, but you can still repaint the walls inside.
 		final Circle c2 = new Circle(5.1); 
 		c2.setRadius(r);
 		System.out.println("Area : " + c2.calcArea());

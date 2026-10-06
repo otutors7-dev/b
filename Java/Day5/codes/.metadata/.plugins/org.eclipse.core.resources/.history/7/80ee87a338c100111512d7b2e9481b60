@@ -1,0 +1,62 @@
+package com.sunbeam;
+
+import java.util.Scanner;
+
+class Shape{
+	protected double area; 
+	public Shape() {
+		// TODO Auto-generated constructor stub
+	}
+	public void acceptRecord( ) {
+		//TODO 
+	}
+	public void calculateArea( ) {
+		//TODO 
+	}
+	public void printRecord( ) {
+		System.out.println("Area : " + area);
+	}
+}
+class Rectangle extends Shape{
+	private double length; 
+	private double breadth; 
+	public Rectangle() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public void acceptRecord() {
+		Scanner sc = new Scanner(System.in); 
+		System.out.print("Length : ");
+		length = sc.nextDouble(); 
+		System.out.print("Breadth : ");
+		breadth = sc.nextDouble(); 
+	}
+	@Override
+	public void calculateArea() {
+		this.area = this.length * this.breadth; 
+	}
+}
+class Circle extends Shape{
+	private double radius; 
+	public Circle() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public void acceptRecord() {
+		Scanner sc = new Scanner(System.in); 
+		System.out.print("Radius : ");
+		radius = sc.nextDouble(); 
+	}
+	@Override
+	public void calculateArea() {
+		this.area = Math.PI * this.radius * this.radius; 
+	}
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

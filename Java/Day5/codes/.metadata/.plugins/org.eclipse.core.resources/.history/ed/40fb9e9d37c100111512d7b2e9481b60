@@ -1,0 +1,47 @@
+package com.sunbeam;
+//The method to be called is decided at runtime depending on type of object. 
+//This is also referred as "Late binding" or "Dyanmic method dispatch".
+
+
+//Process of calling method of sub class using reference of super class is called 
+//as dynamic method dispatch.
+class A{
+	public void printRecord( ) {
+		System.out.println("A.printRecord()");
+	}
+	public void showRecord( ) {
+		System.out.println("A.showRecord()");
+	}
+	public void show( ) {
+		System.out.println("A.show()");
+	}
+}
+class B extends A{
+	public void printRecord( ) {
+		System.out.println("B.printRecord()");
+	}
+	public void displayRecord( ) {
+		System.out.println("B.displayRecord()");
+	}
+}
+public class Program {
+
+	public static void main(String[] args) {
+		A a = new B(); // upcasting 
+		a.printRecord(); //dynamic method dispatch.
+	}
+	public static void main2(String[] args) {
+		B b = new B(); 
+		//b.printRecord();
+		b.show();
+		
+	}
+	public static void main1(String[] args) {
+		A a = new A(); 
+		a.printRecord();
+		a.showRecord();
+		//a.displayRecord( ); // NOT OK 
+
+	}
+
+}

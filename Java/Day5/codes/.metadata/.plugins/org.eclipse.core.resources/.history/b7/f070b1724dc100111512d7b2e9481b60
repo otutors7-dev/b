@@ -1,0 +1,39 @@
+package com.sunbeam;
+//If changes are done in super-class methods (signatures), 
+//then it is necessary to modify and recompile all its sub-classes. 
+//This is called as "Fragile base class problem".
+
+
+//This can be overcomed by using interfaces.
+class A{
+    public void print( ){
+        //System.out.print("Hello,");
+        System.out.print("Good Morning,");
+    }
+}
+class B extends A{
+    @Override
+    public void print( ){
+        super.print();
+        System.out.println("Have a nice day!!");
+    }
+}
+class C extends A{
+    @Override
+    public void print( ){
+        super.print();
+        System.out.println("Good day!!");
+    }
+}
+class Program{
+    public static void main(String[] args) {
+        A a = null;
+        a = new B();    a.print();  //Good Morning,,Have a nice day!!
+        a = new C();    a.print();  //Good Morning,,Good day!!
+    }
+}
+public class Program {
+	public static void main(String[] args) {
+		
+	}
+}

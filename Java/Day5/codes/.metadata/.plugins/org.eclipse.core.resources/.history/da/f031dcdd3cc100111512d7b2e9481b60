@@ -1,0 +1,52 @@
+package com.sunbeam;
+class Shape{
+	protected double area; 
+	public Shape() {
+		// TODO Auto-generated constructor stub
+	}
+	public void calculateArea( ) {
+		//TODO 
+	}
+	public double getArea() {
+		return area;
+	}
+}
+class Rectangle extends Shape{
+	private double length; 
+	private double breadth; 
+	public Rectangle() {
+		// TODO Auto-generated constructor stub
+	}
+	//non-overrided methods 
+	public void setLength(double length) {
+		this.length = length;
+	}
+	public void setBreadth(double breadth) {
+		this.breadth = breadth;
+	}
+	@Override
+	public void calculateArea() {
+		this.area = this.length * this.breadth; 
+	}
+}
+class Circle extends Shape{
+	private double radius; 
+	public Circle() {
+		// TODO Auto-generated constructor stub
+	}
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+	@Override
+	public void calculateArea() {
+		this.area = Math.PI * this.radius * this.radius; 
+	}
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

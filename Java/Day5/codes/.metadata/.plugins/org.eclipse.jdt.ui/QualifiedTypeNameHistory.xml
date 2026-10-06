@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.lang.Override"/>
+    <fullyQualifiedTypeName name="java.lang.Math"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Parent"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Child"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Time"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Date"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Test"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Printable"/>
+    <fullyQualifiedTypeName name="com.sunbeam.A"/>
+    <fullyQualifiedTypeName name="com.sunbeam.C"/>
+    <fullyQualifiedTypeName name="com.sunbeam.B"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Rectangle"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Circle"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Square"/>
+</qualifiedTypeNameHistroy>

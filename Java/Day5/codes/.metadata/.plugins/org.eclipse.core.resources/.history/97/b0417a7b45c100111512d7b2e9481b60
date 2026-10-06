@@ -1,0 +1,44 @@
+package com.sunbeam;
+//If implementation of a super-class is logically complete, 
+//then the class should be declared as final.
+
+//The final class cannot be extended into a sub-class. Compiler raise error, if inherited.
+
+
+//Effectively all methods in final class are final methods.
+final class Time{
+	private int hrs; 
+	private int mins; 
+	private int secs; 
+	public Time() {
+		// TODO Auto-generated constructor stub
+	}
+	public void setHrs(int hrs) {
+		this.hrs = hrs;
+	}
+	public void setMins(int mins) {
+		this.mins = mins;
+	}
+	public void setSecs(int secs) {
+		this.secs = secs;
+	}
+	public Time(int hrs, int mins, int secs) {
+		this.hrs = hrs;
+		this.mins = mins;
+		this.secs = secs;
+	}
+
+	public void display( ) {
+		System.out.printf("hrs : %d mins : %d secs : %d",hrs,mins,secs);
+	}
+}
+/*
+class GoodTime extends Time{
+	
+}*/ 
+public class Program {
+	public static void main(String[] args) {
+		Time t1 = new Time(10, 10, 10); 
+		t1.setMins(100);
+	}
+}

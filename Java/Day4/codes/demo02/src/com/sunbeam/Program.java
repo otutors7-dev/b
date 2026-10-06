@@ -18,7 +18,7 @@ class MyClass{
 	}
 	public MyClass() {
 		System.out.println("ctor");
-		num1 = 100; 
+		num1 = 100; //Constructor
 		num2 = 200; 
 	}
 	public void display( ) {

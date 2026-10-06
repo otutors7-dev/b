@@ -1,0 +1,31 @@
+package com.sunbeam;
+interface A{
+	/*public static final*/int num1 = 10; 
+	int num2 = 20; 
+}
+interface B{
+	int num3 = 30; 
+	int num2 = 40; 
+}
+interface C extends A , B{
+	int num5 = 50; 
+	int num2 = 100; 
+}
+public class Program {
+
+	public static void main(String[] args) {
+		System.out.println("num5 : " + C.num5);
+		System.out.println("num3 : " + C.num3);
+		System.out.println("num2 : " + C.num2);
+	}
+	public static void main2(String[] args) {
+		System.out.println("num2 : " +B.num2);
+		System.out.println("num3 : " +B.num3);
+	}
+	public static void main1(String[] args) {
+		System.out.println("num1  : " + A.num1);
+		System.out.println("num2  : " + A.num2);
+
+	}
+
+}

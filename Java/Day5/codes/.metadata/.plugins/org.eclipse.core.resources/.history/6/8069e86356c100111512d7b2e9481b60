@@ -1,0 +1,14 @@
+package com.sunbeam;
+interface Printable{
+	void f1( );
+	void f2( );
+	void f3( );
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
