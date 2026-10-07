@@ -1,0 +1,66 @@
+package com.sunbeam;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		// String class in Java -- represents immutable "sequence of characters"
+		// length() returns number of chars
+		// charAt() returns char at given index -- 0 to length()-1
+		// "str" reference is created on "stack"
+		// "Sunbeam" string literal/constant is created on String pool (in heap)
+		String str = "Sunbeam"; 
+		System.out.println("Length : " + str.length());
+		for(int i = 0 ; i < str.length() ; i++) {
+			char ch = str.charAt(i); 
+			System.out.print(ch);
+		}
+
+	}
+	public static void main2(String[] args) {
+		//new String objects are created on heap 
+		String str = new String("Infotech"); 
+		System.out.println("Length : " + str.length());
+		for(int i = 0 ; i < str.length() ; i++) {
+			char ch = str.charAt(i); 
+			System.out.print(ch);
+		}
+	}
+	public static void main3(String[] args) {
+		//indexOf() , lastIndex() 
+		String str = "Sunbeam Infotech"; 
+		char ch = 'e'; 
+		int idx = str.indexOf(ch); 
+		System.out.println(ch + " is at index " + idx); //4 
+		
+		ch = 't'; 
+		idx = str.indexOf(ch); 
+		System.out.println(ch + " is at index " + idx); //12 
+		
+		ch = 'e'; 
+		idx = str.lastIndexOf(ch); 
+		System.out.println(ch + " is at index " + idx); //13
+		
+		ch = 'x'; 
+		idx = str.lastIndexOf(ch); 
+		System.out.println(ch + " is at index " + idx); //-1
+	}
+	public static void main4(String[] args) {
+		// strings are immutable.
+		// operations performed on string will create a new object with modified contents.
+		//toUpperCase(), toLowerCase()
+		String str = "Sunbeam"; 
+		String s1 = str.toUpperCase(); 
+		System.out.println("s1 : " + s1);
+		String s2 = str.toLowerCase(); 
+		System.out.println("s2 : " + s2);
+	}
+	public static void main(String[] args) {
+		//concat()
+	}
+
+}
+
+
+
+
+

@@ -1,0 +1,13 @@
+package com.sunbeam;
+
+//Interface that doesn't contain any method declaration is called as "Marker interface". 
+
+//These interfaces are used to mark or tag certain functionalities/features 
+//in implemented class. 
+//In other words, they associate some information (metadata) with the class.
+public class Program {
+	public static void main(String[] args) throws CloneNotSupportedException {
+		Person p1 = new Person("Nilesh", 167, 78, new Date(1, 1, 2000)); 
+		Person p2 = p1.clone(); 
+	}
+}

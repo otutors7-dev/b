@@ -1,0 +1,19 @@
+package com.sunbeam;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Employee emp1 = new Employee("Aditya", 1, 1000.00);
+		Employee emp2 = new Employee("Aditya", 1, 1000.00);
+
+		boolean res = (emp1 == emp2);  // comparing references 
+		System.out.println("Res : " + res);
+		
+		res = emp1.equals(emp2); // Object.equals() method will be called 
+		//System.out.println("Res : " +res);
+	
+		res = emp1.equals(emp2); 
+		System.out.println("Res : " +res);
+	}
+
+}

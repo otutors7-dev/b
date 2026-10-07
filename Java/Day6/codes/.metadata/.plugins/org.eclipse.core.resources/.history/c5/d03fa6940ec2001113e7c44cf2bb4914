@@ -1,0 +1,28 @@
+package com.sunbeam;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		// String class in Java -- represents immutable "sequence of characters"
+		// length() returns number of chars
+		// charAt() returns char at given index -- 0 to length()-1
+		// "str" reference is created on "stack"
+		// "Sunbeam" string literal/constant is created on String pool (in heap)
+		String str = "Sunbeam"; 
+		System.out.println("Length : " + str.length());
+		for(int i = 0 ; i < str.length() ; i++) {
+			char ch = str.charAt(i); 
+			System.out.print(ch);
+		}
+
+	}
+	public static void main(String[] args) {
+		String str = new String("Infotech"); 
+	}
+
+}
+
+
+
+
+

@@ -1,0 +1,11 @@
+package com.sunbeam;
+
+public class Program {
+
+	public static void main(String[] args) {
+		String str = "Sunbeam"; 
+		System.out.println("Length : " + str.length());
+
+	}
+
+}

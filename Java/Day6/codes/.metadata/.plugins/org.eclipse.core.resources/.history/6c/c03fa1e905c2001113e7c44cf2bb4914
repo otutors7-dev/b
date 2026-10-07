@@ -1,0 +1,25 @@
+package com.sunbeam;
+class MyClass {
+    
+    public MyClass() throws Exception {
+    	System.out.println("public MyClass() ");
+    }
+    // ...
+    @Override
+    public void finalize() {
+        try {
+            if(con != null)
+                con.close();
+        }
+        catch(Exception e) {
+        }
+    }
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

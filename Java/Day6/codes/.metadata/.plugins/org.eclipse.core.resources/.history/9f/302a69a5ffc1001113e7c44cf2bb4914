@@ -1,0 +1,19 @@
+package com.sunbeam;
+
+//( name , height , weight , birth) 
+public class Person {
+	private String name; 
+	private int height; 
+	private int weight; 
+	private Date birth; 
+	public Person() {
+		// TODO Auto-generated constructor stub
+	}
+	public Person(String name, int height, int weight, Date birth) {
+		this.name = name;
+		this.height = height;
+		this.weight = weight;
+		this.birth = birth;
+	}
+	
+}

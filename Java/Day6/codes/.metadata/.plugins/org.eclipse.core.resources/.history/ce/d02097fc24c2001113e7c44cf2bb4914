@@ -1,0 +1,51 @@
+package com.sunbeam;
+
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		Scanner sc = new Scanner(System.in); 
+		System.out.println("Enter the number : ");
+		int number = sc.nextInt(); 
+		System.out.println("Square : " + number * number);
+		sc.close(); //internally close System.in 
+		System.out.println("Resource closed");
+
+	}
+	public static void main2(String[] args) {
+		Scanner sc = new Scanner(System.in); 
+		try {
+			System.out.println("Enter the number : ");
+			int number = sc.nextInt(); 
+			System.out.println("Square : " + number * number);
+			
+		} finally {
+			sc.close();
+			System.out.println("Resource closed"); 
+		}
+	}
+	public static void main3(String[] args) {
+		//try-with-resources
+		try(Scanner sc = new Scanner(System.in)){
+			System.out.println("Enter the number : ");
+			int number = sc.nextInt(); 
+			System.out.println("Square : " + number * number);
+		}//sc.close() will be called automatically  
+	}
+	public static void main(String[] args) {
+		class MyResource implements AutoCloseable{
+			
+			public MyResource() {
+				System.out.println("MyRosource used");
+			}
+			@Override
+			public void close(){
+				System.out.println("MyResource closed()...");
+				
+			}
+			
+		}
+	}
+
+}

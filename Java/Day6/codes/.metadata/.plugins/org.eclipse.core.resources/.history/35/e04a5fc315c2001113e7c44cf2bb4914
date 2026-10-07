@@ -1,0 +1,59 @@
+package com.sunbeam;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		//Constructs a string buffer with no characters 
+		//in it and an initial capacity of 16 characters.
+		StringBuffer sb = new StringBuffer(); 
+		sb.append("Nilesh"); // append(String)  
+		sb.append(40);  // append(int) 
+		sb.append('M');  //append(char) 
+		sb.append(75.45); //append(double) 
+		
+		String s = sb.toString(); 
+		System.out.println(s);
+	}
+	public static void main2(String[] args) {
+		// capacity is size of internal char array
+	    // length is number of chars stored in that array
+		StringBuffer sb = new StringBuffer(); 
+		System.out.printf("Capacity : %d length : %d\n",sb.capacity(),sb.length()); //Capacity : 16 length : 0
+		sb.append("0123456789"); 
+		System.out.printf("Capacity : %d length : %d\n",sb.capacity(),sb.length()); //Capacity : 16 length : 10
+		sb.append("abcdef"); 
+		System.out.printf("Capacity : %d length : %d\n",sb.capacity(),sb.length()); //Capacity : 16 length : 16
+		sb.append("ghijkl"); 
+		System.out.printf("Capacity : %d length : %d\n",sb.capacity(),sb.length()); //Capacity : 34 length : 22
+	}
+	public static void main3(String[] args) {
+		// StringBuffer (since Java 1.0) is thread-safe.
+		// Internally uses synchronization objects, which slow down the execution.
+		// StringBuilder (since Java 5.0) is not thread-safe.
+		//Not using synchronization objects, due to which it is faster than StringBuffer.
+		// StringBuilder methods are same as StringBuffer methods.
+		StringBuilder sb1 = new StringBuilder("Sunbeam"); 
+		sb1.reverse(); 
+		System.out.println(sb1);
+	}
+	public static void main(String[] args) {
+		class Box{
+			private int length; 
+			private int breadth; 
+			private int height; 
+			public Box() {
+				// TODO Auto-generated constructor stub
+			}
+			public Box(int length, int breadth, int height) {
+				this.length = length;
+				this.breadth = breadth;
+				this.height = height;
+			}
+			
+		}
+	}
+
+}
+
+
+

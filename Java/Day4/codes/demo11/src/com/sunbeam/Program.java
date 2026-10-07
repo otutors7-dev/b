@@ -9,7 +9,7 @@ class Person{
 		this.name = name;
 		this.age = age;
 	}
-	public void printRecord( ) {
+	public void displayRecord( ) {
 		System.out.println("Name : " + name);
 		System.out.println("Age : " + age);
 	}
@@ -26,7 +26,7 @@ class Employee extends Person{
 		this.salary = salary;
 	}
 	public void displayRecord( ) {
-		super.printRecord();
+		super.displayRecord();
 		System.out.println("Empid : " +empid);
 		System.out.println("Salary : " + salary);
 	}
@@ -38,10 +38,8 @@ public class Program {
 		Employee e = new Employee("Rahul", 31, 1, 1000.00); 
 		e.displayRecord();
 	}
-	public static void main1(String[] args) {
-		Person p = new Person("Rahul", 31); 
-		p.printRecord();
 	
-	}
+	
+	
 
 }

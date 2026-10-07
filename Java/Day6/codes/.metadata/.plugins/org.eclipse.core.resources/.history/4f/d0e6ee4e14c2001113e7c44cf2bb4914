@@ -1,0 +1,25 @@
+package com.sunbeam;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		//Constructs a string buffer with no characters 
+		//in it and an initial capacity of 16 characters.
+		StringBuffer sb = new StringBuffer(); 
+		sb.append("Nilesh"); // append(String)  
+		sb.append(40);  // append(int) 
+		sb.append('M');  //append(char) 
+		sb.append(75.45); //append(double) 
+		
+		String s = sb.toString(); 
+		System.out.println(s);
+	}
+	public static void main(String[] args) {
+		StringBuffer sb = new StringBuffer(); 
+		System.out.printf("Capacity : %d length : %d",sb.capacity(),sb.length());
+	}
+
+}
+
+
+
