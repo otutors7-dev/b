@@ -1,0 +1,96 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+
+public class Program {
+	public static void main(String[] args) {
+		List<String> list = new ArrayList<>();
+		//add() 
+		list.add("India");
+		list.add("USA");
+		list.add("China");
+		list.add("Germany");
+		list.add("Italy");
+		list.add("USA");
+		list.add("Spain");
+		System.out.println("size : " + list.size());
+		System.out.println("toString() : " + list.toString());
+		
+		//add(index , ele); 
+		list.add(3, "Norway");
+		System.out.println("toString() : " + list.toString());
+		int index = 5; 
+		
+		//get(); 
+		String e5 = list.get(index);  //Italy
+		System.out.println("ele : " + e5); //Italy
+		e5 = e5.toUpperCase();  //ITALY
+		
+		//set(); 
+		list.set(index, e5); 
+		System.out.println("toString() : " + list.toString());
+		
+		//remove(); 
+		list.remove(index); 
+		System.out.println("toString() : " + list.toString());
+		String find = "USA"; 
+		
+		//contains(); 
+		boolean found = list.contains(find); 
+		if(found)
+			System.out.println(find + " found");
+		else 
+			System.out.println("Not found");
+		
+		//indexOf() , lastIndexOf() 
+		int idx = list.indexOf(find); 
+		if(idx!=-1) {
+			System.out.println(find + " found at index " + idx);
+		}
+		else 
+			System.out.println("Not found");
+		
+		idx = list.lastIndexOf(find); 
+		if(idx!=-1) {
+			System.out.println(find + " found at index " + idx);
+		}
+		else 
+			System.out.println("Not found");
+		
+		System.out.println();
+		
+		System.out.print("FWD traversing : ");
+		
+		ListIterator<String> trav = list.listIterator(); 
+		while(trav.hasNext()) {
+			String ele = trav.next(); 
+			System.out.print(ele + " ");
+		}
+		System.out.println();
+		System.out.print("REV traversing : ");
+		trav = list.listIterator(list.size()); 
+		while(trav.hasPrevious()) {
+			String e = trav.previous(); 
+			System.out.print(e + " ");
+		}
+		list.clear(); 
+		System.out.println();
+		
+		Collections.addAll(list,"Aditya","Sagar","Prashant","Rahul","Sandeeep"); 
+		Collections.sort(list);
+		System.out.println("SORTED : ");
+		for(String s : list) {
+			System.out.println(s);
+		}
+	}
+}
+
+
+
+
+
+
+

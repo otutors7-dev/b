@@ -1,0 +1,13 @@
+package com.sunbeam;
+
+import java.util.Vector;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Vector<Integer> v = new Vector<>(); 
+		System.out.printf("Capacity : %d size : %d",v.capacity(),v.size()); //Capacity : 10 size : 0
+
+	}
+
+}

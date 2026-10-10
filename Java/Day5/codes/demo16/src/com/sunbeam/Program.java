@@ -13,7 +13,6 @@ abstract class A{
 		System.out.println("num1 : " + num1);
 		System.out.println("num2 : " + num2);
 	}
-	
 }
 class B extends A{
 	public B(int num1 , int num2) {

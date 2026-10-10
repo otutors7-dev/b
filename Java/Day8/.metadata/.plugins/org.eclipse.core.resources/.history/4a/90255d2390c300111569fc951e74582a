@@ -1,0 +1,15 @@
+package com.sunbeam;
+
+public class Program {
+	//Generic method till java 1.4 
+	public static void swap(Object x , Object y) {
+		Object temp = x; 
+		x = y; 
+		y = temp; 
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,33 @@
+package com.sunbeam;
+class Fraction implements Comparable<Fraction>{
+	private int n; 
+	private int d; 
+	public Fraction() {
+		// TODO Auto-generated constructor stub
+	}
+	public Fraction(int n, int d) {
+		this.n = n;
+		this.d = d;
+	}
+	public double value( ) {
+		return n/d; 
+	}
+	@Override
+	public int compareTo(Fraction other) {
+		if(this.value() == other.value() )
+			return 0; 
+		if(this.value() > other.value())
+			return 1; 
+		else 
+			return -1; 
+	}
+	
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

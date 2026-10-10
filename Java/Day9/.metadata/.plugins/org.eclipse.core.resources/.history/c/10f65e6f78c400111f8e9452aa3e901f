@@ -1,0 +1,138 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Employee {
+	private int empid;
+	private String name;
+	private double salary;
+
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Employee(int empid, String name, double salary) {
+		this.empid = empid;
+		this.name = name;
+		this.salary = salary;
+	}
+
+	public int getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%-20d%-15s%-10.2f", empid, name, salary);
+	}
+
+}
+
+public class Program {
+	public static List<Employee> empList = new ArrayList<>();
+	public static Scanner sc = new Scanner(System.in);
+
+	public static Employee[] getInstances() {
+		Employee[] arr = new Employee[4]; 
+		arr[0] = new Employee(3, "Aditya", 5000.00);
+		arr[1] = new Employee(4, "Sagar", 1000.00);
+		arr[2] = new Employee(1, "Prashant", 2000.00);
+		arr[3] = new Employee(2, "Nilesh", 3000.00);
+		return arr; 
+	}
+
+	public static void addEmployees(Employee[] arr) {
+		for(Employee e : arr) {
+			empList.add(e)
+		}
+	}
+
+	public static void acceptRecord(int[] empid) {
+		System.out.print("Enter the empid : ");
+		empid[0] = sc.nextInt();
+	}
+
+	public static Employee findEmployee(int empid) {
+		Employee key = new Employee(); 
+		key.setEmpid(empid);
+		int idx = empList.indexOf(key); 
+		if(idx!=-1) {
+			return empList.get(idx); 
+		}
+		return null; 
+	}
+
+	public static void printEmployee(Employee e) {
+		// TODO
+	}
+
+	public static boolean removeEmployee(int empid) {
+		// TODO
+	}
+
+	public static void updateEmployee(int empid) {
+		// TODO
+	}
+
+	public static void printEmployees() {
+		// TODO
+	}
+
+	public static int menuList() {
+		System.out.println("0.Exit");
+		System.out.println("1.Add Employees");
+		System.out.println("2.Find Employee");
+		System.out.println("3.Remove Employee");
+		System.out.println("4.Update Employee");
+		System.out.println("5.Print Employee");
+		System.out.println("Enter the choice : ");
+		return sc.nextInt();
+
+	}
+
+	public static void main(String[] args) {
+		int[] empid = new int[1];
+		int choice; 
+		while((choice = menuList())!=0) {
+			switch (choice) {
+			case 1:
+				Employee[] arr = Program.getInstances(); 
+				Program.addEmployees(arr);
+				break;
+			case 2: 
+				Program.acceptRecord(empid);
+				Program.findEmployee(empid[0]); 
+			default:
+				break;
+			}
+		}
+
+	}
+
+}
+
+
+
+

@@ -1,0 +1,40 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class Program {
+	public static void main(String[] args) {
+		//Collection<String> c = new ArrayList<>();
+		Collection<String> c = new LinkedList<>(); 
+		c.add("India");
+		c.add("USA");
+		c.add("China");
+		c.add("USA");
+		c.add("Germany");
+		c.add("France");
+		c.add("Spain");
+		System.out.println("size : " + c.size());
+		System.out.println("toString() : " + c.toString());
+		System.out.print("Ele : ");
+		for(String s : c) {
+			System.out.print(s + " ");
+		}
+		c.remove("USA");
+		System.out.println();
+		System.out.println("toString() : " + c.toString());
+		
+		System.out.println();
+		
+		
+		Iterator<String> trav = c.iterator(); 
+		while(trav.hasNext()) {
+			String ele = trav.next(); 
+			System.out.print(ele + " ");
+		}
+		
+				
+	}
+}

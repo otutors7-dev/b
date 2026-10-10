@@ -1,0 +1,34 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Vector;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		Vector<Integer> v = new Vector<>(); 
+		System.out.printf("Capacity : %d size : %d\n",v.capacity(),v.size()); //Capacity : 10 size : 0
+		for(int i = 1 ; i<=10 ; i++)
+			v.add(i); 
+		System.out.printf("Capacity : %d size : %d\n",v.capacity(),v.size()); //Capacity : 10 size : 10
+		v.add(11); 
+		System.out.printf("Capacity : %d size : %d\n",v.capacity(),v.size()); //Capacity : 20 size : 11
+		for(int i = 12 ; i<=20 ; i++)
+			v.add(i); 
+		v.add(21); 
+		System.out.printf("Capacity : %d size : %d\n",v.capacity(),v.size()); //Capacity : 40 size : 21
+	}
+	public static void main(String[] args) {
+		// Vector (from 1.0) is Synchronized/Thread-safe (like StringBuffer)
+		// ArrayList (from 1.2) is Non-Synchronized/Not Thread-safe (like StringBuilder)
+		ArrayList<Integer> list = new ArrayList<>(); 
+		System.out.printf("size : %d",list.size()); //Capacity : 10 size : 0 
+		for(int i = 1 ; i<=10 ; i++)
+			list.add(i); 
+		System.out.printf("size : %d",list.size()); //Capacity : 10 size : 0 
+	}
+
+}
+
+
+

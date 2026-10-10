@@ -1,0 +1,39 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+//fail fast iterator vs fail safe iterator 
+public class Program {
+
+	public static void main1(String[] args) {
+		List<Integer> list = new ArrayList<>(); 
+		Collections.addAll(list, 10,20,30,40,50); 
+		
+		Iterator<Integer> itr = list.iterator(); 
+		while(itr.hasNext()) {
+			Integer e = itr.next(); 
+			System.out.println(e);
+			if(e == 30)
+			  list.add(3, 33);	
+		}
+		
+
+	}
+	public static void main(String[] args) {
+		List<Integer> list = new CopyOnWriteArrayList<>(); 
+		
+		Iterator<Integer> itr = list.iterator(); 
+		while(itr.hasNext()) {
+			Integer ele = itr.next(); 
+			System.out.println(ele);
+			if(e == 30)
+			  list.add(3, 33);	
+		}
+	
+	}
+
+}

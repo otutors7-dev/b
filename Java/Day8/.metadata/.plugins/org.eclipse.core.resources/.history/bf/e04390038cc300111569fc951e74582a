@@ -1,0 +1,13 @@
+package com.sunbeam;
+
+public class Program {
+	//generic method using java.lang.Object -- till Java 1.4 
+	public static void printObjectArray(Object[] arr) {
+		
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,70 @@
+package com.sunbeam;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Product[ ] arr = {
+				new Product(3, "Pen", 11.33),
+				new Product(4, "Pencil", 5.10),
+				new Product(1, "Erasor", 6.66),
+				new Product(5, "Sharpner", 7.33),
+				new Product(2, "Book", 20.00)
+		}; 
+		for(int i = 0 ; i < arr.length ;i++) {
+			System.out.println(arr[i]);
+		}
+		class ProductNameComparator implements Comparator<Product>{
+
+			@Override
+			public int compare(Product x, Product y) {
+				int diff = x.getName().compareTo(y.getName()); 
+				return diff; 
+			}
+			
+		}
+		ProductNameComparator productNameComparator = new ProductNameComparator(); 
+		Arrays.sort(arr,productNameComparator); 
+		System.out.println("Name : ");
+		for(int i = 0 ; i < arr.length ;i++) {
+			System.out.println(arr[i]);
+		}
+		System.out.println();
+		
+		class  ProductPriceAscComparator implements Comparator<Product>{
+
+			@Override
+			public int compare(Product x, Product y) {
+				int diff = Double.compare(x.getPrice(),y.getPrice()); 
+				return diff; 
+			}
+			
+		}
+		System.out.println("Price Asc");
+		Arrays.sort(arr, new ProductPriceAscComparator());
+		for(int i = 0 ; i < arr.length ;i++) {
+			System.out.println(arr[i]);
+		}
+		System.out.println();
+		
+		class ProductPriceDescComparator implements Comparator<Product>{
+
+			@Override
+			public int compare(Product x, Product y) {
+				int diff = Double.compare(y.getPrice(),x.getPrice()); 
+				return diff; 
+			}
+			
+		}
+		Arrays.sort(arr,new ProductPriceDescComparator());
+		System.out.println("Price Desc");
+		Arrays.sort(arr, new ProductPriceAscComparator());
+		for(int i = 0 ; i < arr.length ;i++) {
+			System.out.println(arr[i]);
+		}
+
+	}
+
+}

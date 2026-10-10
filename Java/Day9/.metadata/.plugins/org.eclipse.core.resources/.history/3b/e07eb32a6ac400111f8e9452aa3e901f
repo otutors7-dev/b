@@ -1,0 +1,25 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+//fail fast iterator vs fail safe iterator 
+public class Program {
+
+	public static void main(String[] args) {
+		List<Integer> list = new ArrayList<>(); 
+		Collections.addAll(list, 10,20,30,40,50); 
+		
+		Iterator<Integer> itr = list.iterator(); 
+		while(itr.hasNext()) {
+			Integer e = itr.next(); 
+			System.out.println(e);
+			
+		}
+		
+
+	}
+
+}

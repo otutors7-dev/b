@@ -32,6 +32,7 @@ public class Program {
 //		a.f2();
 		B b = new Test(); 
 		b.f1();
+		
 
 	}
 

@@ -1,0 +1,22 @@
+package com.sunbeam;
+
+import java.util.Stack;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Stack<Integer> stk = new Stack<>(); 
+		stk.push(10);
+		stk.push(20);
+		stk.push(30);
+		stk.push(40);
+		
+		System.out.println("Top-most element : " + stk.peek());
+		while(!stk.isEmpty()) {
+			Integer e = stk.pop(); 
+			System.out.println(e);
+		}
+
+	}
+
+}

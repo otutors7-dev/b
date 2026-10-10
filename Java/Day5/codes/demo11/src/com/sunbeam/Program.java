@@ -11,7 +11,7 @@ class Test implements Printable{
 
 	@Override
 	public void print() {
-		System.out.println("Number : " + Printable.number);
+		System.out.println("Number : " + number);
 	}
 }
 public class Program {

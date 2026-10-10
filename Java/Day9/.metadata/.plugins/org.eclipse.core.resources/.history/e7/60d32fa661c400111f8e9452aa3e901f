@@ -1,0 +1,42 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+
+public class Program {
+	public static void main(String[] args) {
+		List<Book> list = new ArrayList<>(); 
+		
+		Collections.addAll(list,
+				new Book(4, "The Alchemist", "Novel", 493.23),
+			    new Book(1, "The Archer", "Novel", 723.53),
+			    new Book(5, "The Fountainhead", "Novel", 652.73),
+			    new Book(2, "Atlas Shrugged", "Novel", 872.94),
+			    new Book(6, "Harry Potter", "Novel", 423.68),
+			    new Book(3, "Lord of Rings", "Novel", 621.53)		
+		);
+		System.out.println();
+		for(Book b : list) {
+			System.out.println(b);
+		}
+		System.out.println();
+		int index = 3; 
+		Book b = list.get(index); 
+		System.out.println(b.toString());
+		System.out.println();
+		System.out.print("REV Traversing : ");
+		
+		ListIterator<Book> trav = list.listIterator(list.size()); 
+		while(trav.hasPrevious()) {
+			Book bk = trav.previous();
+			System.out.println(bk);
+		}
+	}
+}
+
+
+
+
+

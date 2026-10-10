@@ -1,0 +1,37 @@
+package com.sunbeam;
+class Fraction{
+	private int n; 
+	private int d; 
+	public Fraction() {
+		// TODO Auto-generated constructor stub
+	}
+	public Fraction(int n, int d) {
+		this.n = n;
+		this.d = d;
+	}
+	public double value( ) {
+		return n/d; 
+	}
+	@Override
+	public boolean equals(Object obj) {
+		Fraction other = (Fraction) obj;
+		return this.value() == other.value(); 
+	}
+	
+}
+public class Program {
+
+	public static void main(String[] args) {
+		//Fraction f1 = new Fraction(20, 10);
+		//Fraction f2 = new Fraction(20, 10);
+		//boolean res = f1.equals(f2); 
+		//System.out.println("res : " + res);
+		
+		Fraction f1 = new Fraction(20, 10);
+		Fraction f2 = new Fraction(10, 10);
+		//boolean res = f1.equals(f2);
+		boolean res = f1.equals("10/2");
+		System.out.println("res : " + res);
+	}
+
+}

@@ -1,0 +1,38 @@
+package com.sunbeam;
+class Person{
+	private String name; 
+	public Person() {
+		// TODO Auto-generated constructor stub
+	}
+	public Person(String name) {
+		this.name = name;
+	}
+	@Override
+	public String toString() {
+		return String.format("%-20s",name); 
+	}
+}
+class Employee extends Person{
+	private int empid; 
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+	public Employee(String name , int empid) {
+		super(name); 
+		this.empid = empid;
+	}
+	@Override
+	public String toString() {
+		return String.format("%-20s%-15d",super.toString(),empid); 
+	}
+	
+	
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

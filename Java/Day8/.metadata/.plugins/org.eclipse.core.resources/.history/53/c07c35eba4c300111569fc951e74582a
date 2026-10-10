@@ -1,0 +1,19 @@
+package com.sunbeam;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Product[ ] arr = {
+				new Product(3, "Pen", 11.33),
+				new Product(4, "Pencil", 5.10),
+				new Product(1, "Erasor", 6.66),
+				new Product(5, "Sharpner", 7.33),
+				new Product(2, "Book", 20.00)
+		}; 
+		for(int i = 0 ; i < arr.length ;i++) {
+			System.out.println(arr[i]);
+		}
+
+	}
+
+}

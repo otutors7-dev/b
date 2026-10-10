@@ -6,7 +6,8 @@ package com.sunbeam;
 
 //This can be overcomed by using interfaces.
 class A{
-    public void print( ){
+    public void print( )
+    {
         //System.out.print("Hello,");
         System.out.print("Good Morning,");
     }
@@ -18,7 +19,7 @@ class B extends A{
         System.out.println("Have a nice day!!");
     }
 }
-class C extends A{
+class C extends B{
     @Override
     public void print( ){
         super.print();

@@ -1,0 +1,106 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Employee {
+	private int empid;
+	private String name;
+	private double salary;
+
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Employee(int empid, String name, double salary) {
+		this.empid = empid;
+		this.name = name;
+		this.salary = salary;
+	}
+
+	public int getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%-20d%-15s%-10.2f", empid, name, salary);
+	}
+
+}
+
+public class Program {
+	public static List<Employee> empList = new ArrayList<>();
+	public static Scanner sc = new Scanner(System.in);
+
+	public static Employee[] getInstances() {
+		// TODO
+	}
+
+	public static void addEmployees(Employee[] arr) {
+		// TODO
+	}
+
+	public static void acceptRecord(int[] empid) {
+		// TODO
+	}
+
+	public static Employee findEmployee(int empid) {
+		// TODO
+	}
+
+	public static void printEmployee(Employee e) {
+		// TODO
+	}
+
+	public static boolean removeEmployee(int empid) {
+		// TODO
+	}
+
+	public static void updateEmployee(int empid) {
+		// TODO
+	}
+
+	public static void printEmployees() {
+		// TODO
+	}
+
+	public static int menuList() {
+		System.out.println("0.Exit");
+		System.out.println("1.Add Employees");
+		System.out.println("2.Find Employee");
+		System.out.println("3.Remove Employee");
+		System.out.println("4.Update Employee");
+		System.out.println("5.Print Employee");
+		System.out.println("Enter the choice : ");
+		return sc.nextInt();
+
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

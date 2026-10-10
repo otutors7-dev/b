@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Fraction"/>
+    <fullyQualifiedTypeName name="ProductNameComparator"/>
+    <fullyQualifiedTypeName name="ProductPriceAscComparator"/>
+    <fullyQualifiedTypeName name="com.sunbeam.Product"/>
+    <fullyQualifiedTypeName name="ProductPriceDescComparator"/>
+    <fullyQualifiedTypeName name="java.util.EmptyStackException"/>
+    <fullyQualifiedTypeName name="java.util.EnumMap"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="java.util.Comparator"/>
+    <fullyQualifiedTypeName name="com.util.SortById"/>
+    <fullyQualifiedTypeName name="com.util.SortByName"/>
+    <fullyQualifiedTypeName name="com.util.SortBySalary"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="java.lang.Comparable"/>
+    <fullyQualifiedTypeName name="com.domain.Employee"/>
+    <fullyQualifiedTypeName name="java.util.Collection"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+</qualifiedTypeNameHistroy>

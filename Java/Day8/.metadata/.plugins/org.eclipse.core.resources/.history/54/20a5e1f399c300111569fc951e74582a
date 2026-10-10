@@ -1,0 +1,12 @@
+package com.sunbeam;
+class Fraction implements Comparable<Fraction>{
+	
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

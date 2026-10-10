@@ -1,0 +1,26 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class Program {
+	public static void main(String[] args) {
+		Collection<String> c = new ArrayList<>();  
+		c.add("India");
+		c.add("USA");
+		c.add("China");
+		c.add("USA");
+		c.add("Germany");
+		c.add("France");
+		c.add("Spain");
+		System.out.println("size : " + c.size());
+		System.out.println("toString() : " + c.toString());
+		System.out.print("Ele : ");
+		for(String s : c) {
+			System.out.print(s + " ");
+		}
+		c.remove("USA"); 
+		System.out.println("toString() : " + c.toString());
+				
+	}
+}

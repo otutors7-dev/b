@@ -1,0 +1,55 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Vector;
+
+public class Program {
+
+	public static void main(String[] args) {
+		//ArrayList<Integer> list = new ArrayList<>();  
+		//LinkedList<Integer> list = new LinkedList<>(); 	
+		Vector<Integer> list = new Vector<>(); 
+		 
+		 Collections.addAll(list, 10,20,30,40,50); 
+		 
+		 System.out.println("for-each loop (Since Java 1.2) ( works for all Collections)");
+		 for(Integer i : list) {
+			 System.out.println(i);
+		 }
+		 
+		 System.out.println("Using Iterator (Since Java 1.2) ( works for all Collections)");
+		 
+		 Iterator<Integer> itr = list.iterator(); 
+		 while(itr.hasNext()) {
+			 Integer ele = itr.next(); 
+			 System.out.println(ele);
+		 }
+		 
+		 System.out.println("For loop(works for all List) ");
+		 
+		 for(int i = 0 ; i < list.size() ; i++) {
+			 Integer ele = list.get(i); 
+			 System.out.println(ele);
+		 }
+		 
+		 Enumeration<Integer> en = list.elements(); 
+		 while(en.hasMoreElements()) {
+			 Integer e = en.nextElement(); 
+			 System.out.println(e);
+		 }
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+	}
+
+}

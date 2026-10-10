@@ -1,0 +1,52 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Program {
+	public static void main(String[] args) {
+		List<String> list = new ArrayList<>(); 
+		list.add("India");
+		list.add("USA");
+		list.add("China");
+		list.add("Germany");
+		list.add("Italy");
+		list.add("USA");
+		list.add("Spain");
+		System.out.println("size : " + list.size());
+		System.out.println("toString() : " + list.toString());
+		list.add(3, "Norway");
+		System.out.println("toString() : " + list.toString());
+		int index = 5; 
+		String e5 = list.get(index);  //Italy
+		System.out.println("ele : " + e5); //Italy
+		e5 = e5.toUpperCase();  //ITALY
+		list.set(index, e5); 
+		System.out.println("toString() : " + list.toString());
+		list.remove(index); 
+		System.out.println("toString() : " + list.toString());
+		String find = "USA"; 
+		boolean found = list.contains(find); 
+		if(found)
+			System.out.println(find + " found");
+		else 
+			System.out.println("Not found");
+		//indexOf() , lastIndexOf() 
+		int idx = list.indexOf(find); 
+		if(idx!=-1) {
+			System.out.println(find + " found at index " + idx);
+		}
+		else 
+			System.out.println("Not found");
+		
+		idx = list.lastIndexOf(find); 
+		if(idx!=-1) {
+			System.out.println(find + " found at index " + idx);
+		}
+		else 
+			System.out.println("Not found");
+	}
+}
+
+
+
