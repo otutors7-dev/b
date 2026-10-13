@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Debugging TLS Connections</title>
+<link rel="stylesheet" type="text/css" href="../../../../technotes/css/guide.css" />
+</head>
+<body>
+<!-- STATIC HEADER -->
+
+<!-- header start -->
+<div id="javaseheader">
+<div id="javaseheaderlogo">
+<img src="../../../../images/javalogo.gif"
+alt="Java logo" />
+</div>
+<div id="javaseheaderindex">
+
+<a href=
+"../../../../index.html">Documentation Contents</a>
+</div>
+<div class="clear"></div>
+</div>
+
+<!-- header end -->
+
+
+<h1>Debugging TLS Connections</h1>
+
+<ul>
+<li><a href="#run-classfileserver-on-localhost">Run ClassFileServer on localhost</a></li>
+<li><a href="#run-sslsocketclientwithclientauth-on-localhost">Run SSLSocketClientWithClientAuth on locahost</a></li>
+<li><a href="#debug-output-format">Debug Output Format</a></li>
+<li><a href="#determine-client-side-and-server-side-enabled-cipher-suites">Determine Client-Side and Server-Side Enabled Cipher Suites</a></li>
+<li><a href="#initialize-x509keymanager">Initialize X509KeyManager</a></li>
+<li><a href="#initialize-a-trustmanager">Initialize a TrustManager</a></li>
+<li><a href="#perform-additional-initialization">Perform Additional Initialization</a></li>
+<li><a href="#send-clienthello-message">Send ClientHello Message</a></li>
+<li><a href="#show-actual-data-sent-and-read">Show Actual Data Sent and Read</a></li>
+<li><a href="#read-serverhello-message">Read ServerHello Message</a></li>
+<li><a href="#read-encryptionextensions-message">Read EncryptedExtensions Message</a></li>
+<li><a href="#read-servers-certificaterequest-message">Read Server&rsquo;s CertificateRequest Message</a></li>
+<li><a href="#read-servers-certificate-message">Read Server&rsquo;s Certificate Message</a></li>
+<li><a href="#read-servers-certificateverify-message">Read Server&rsquo;s CertificateVerify Message</a></li>
+<li><a href="#read-servers-finished-message">Read Server&rsquo;s Finished Message</a></li>
+<li><a href="#send-certificate-message">Send Certificate Message</a></li>
+<li><a href="#send-certificateverify-message">Send CertificateVerify Message</a></li>
+<li><a href="#send-finished-message">Send Finished Message</a></li>
+<li><a href="#exchange-application-data-client-sends-get-command">Exchange Application Data, Client Sends GET Command</a></li>
+<li><a href="#read-newsessionticket-message">Read NewSessionTicket Message</a></li>
+<li><a href="#exchange-application-data-server-sends-https-header-and-data">Exchange Application Data, Server Sends HTTPS Header and Data</a></li>
+<li><a href="#read-servers-alert-message">Read Server&rsquo;s Alert Message</a></li>
+<li><a href="#close-the-connection">Close the Connection</a></li>
+</ul>
+
+<p>Understanding TLS connection problems can sometimes be
+difficult, especially when it is not clear what messages are
+actually being sent and received. JSSE has a built-in debug
+facility and is activated by the system property <code>javax.net.debug</code>. To know more about <code>javax.net.debug</code> System property, see <a href="JSSERefGuide.html#Debug">Debugging Utilities</a>.</p>
+
+<p>This section gives a brief overview of the debug output of the
+basic TLS 1.3 handshake. To know more about the TLS protocol, see
+<a href="https://tools.ietf.org/html/rfc8446">RFC
+8446: The Transport Layer Security (TLS) Protocol Version
+1.3</a>.</p>
+
+<hr/>
+<p><strong>Note:</strong></p>
+<ul>
+  <li>Debug output information about all possible TLS handshake
+combinations and protocols is beyond the scope of this guide.
+Instead, refer to the relevant RFC for more detailed information
+about a particular version of TLS. See 
+<a href="tls.html">Transport Layer Security (TLS) Protocol Overview</a> for a list of supported SSL/TLS
+protocols and links to their respective RFCs.</li>
+
+  <li>The output is non-standard and may change from release to
+release</li>
+
+</ul>
+<hr/>
+
+<p>This example uses the default JSSE <code>X509KeyManager</code> and
+<code>X509TrustManager</code>, which also prints debug information about the
+keys and trusted certificates used during a connection. It uses
+the <code>ClassFileServer</code> and <code>SSLSocketClientWithClientAuth</code> sample applications
+from <a href="samples/index.html">JSSE Sample Code</a>. <code>ClassFileServer</code>
+is a simple HTTPS server that can require client authentication.
+<code>SSLSocketClientWithClientAuth</code>
+demonstrates how to use the <code>SSLSocket</code> class as a client to send an HTTP request
+and get a response from an HTTPS server. To make things simpler,
+both <code>ClassFileServer</code> and <code>SSLSocketClientWithClientAuth</code> are run from the
+same host.</p>
+
+
+<h2><a name="run-classfileserver-on-localhost">Run ClassFileServer on localhost</a></h2>
+
+<p>The following command runs the <code>ClassFileServer</code> application on <code>localhost</code>, port 2002:</p>
+<pre class="codeblock">java \
+  -Djavax.net.ssl.trustStore=/my_home_directory/jssesamples/samples/samplecacerts \
+  -Djavax.net.ssl.trustStorePassword=changeit \
+  ClassFileServer 2002 \
+  /my_home_directory/jssesamples/samples/ \
+  TLS true</pre>
+
+<h2><a name="run-sslsocketclientwithclientauth-on-localhost">Run SSLSocketClientWithClientAuth on locahost</a></h2>
+
+<p>The following command runs the <code>SSLSocketClientWithClientAuth</code> application on
+<code>localhost</code>, port 2002. The application
+connects to the HTTPS server that you started with the previous
+command. It sends an HTTPS request to the server and receives the
+reply. Note that the command sets the value of the system
+property <code>javax.net.debug</code> to
+<code>all</code>, which turns on all
+debugging.</p>
+
+<pre class="codeblock">java -Djavax.net.debug=all -Djavax.net.ssl.trustStore=/my_home_directory/jssesamples/samples/samplecacerts SSLSocketClientWithClientAuth localhost 2002 /index.html</pre>
+
+<h2><a name="debug-output-format">Debug Output Format</a></h2>
+
+<p>Each line of the debug output contains the following
+information; each field is separated by a vertical bar
+(<code>|</code>):</p>
+<ul>
+<li>Logger name (<code>System.getLogger("javax.net.ssl")</code>)</li>
+<li>Debug level (<code>System.Logger.Level</code>)</li>
+<li>Thread ID (<code>Thread.currentThread().getId()</code>)</li>
+<li>Thread name (<code>Thread.currentThread().getName()</code>)</li>
+<li>Date and time</li>
+<li>Caller (location of the logging call)</li>
+<li>Message</li>
+</ul>
+
+<h2><a name="determine-client-side-and-server-side-enabled-cipher-suites">Determine Client-Side and Server-Side Enabled Cipher Suites</a></h2>
+
+<p>The values of the system properties <code>jdk.tls.client.cipherSuites</code> and <code>jdk.tls.server.cipherSuites</code> are checked to
+determine the default enabled cipher suites; see
+<a href="JSSERefGuide.html#default-enabled-cipher-suites">Specifying Default Enabled Cipher Suites</a> for more information
+about these system properties.</p>
+
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:46.990 EDT|SSLContextImpl.java:427|System property jdk.tls.client.cipherSuites is set to 'null'
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.026 EDT|SSLContextImpl.java:427|System property jdk.tls.server.cipherSuites is set to 'null'
+...</pre>
+
+<p>The values of these system properties are null, so the default
+enabled cipher suites are those that the SunJSSE provider enables
+by default; see <a href=
+"..//SunProviders.html#SunJSSEProvider">
+The SunJSSE Provider</a> in
+<a href="SunProviders.html">Java Cryptography Architecture (JCA) Oracle Providers Documentation for JDK 8</a>.</p>
+
+<p>The value of <code>jdk.tls.keyLimits</code> is
+checked to determine the limit of the amount of data an algorithm
+may encrypt with a specific set of keys; see
+<a href="JSSERefGuide.html#limit-data-encrypted">Limiting Amount of Data Algorithms May Encrypt with a Set of Keys</a>.</p>
+
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.124 EDT|SSLCipher.java:436|jdk.net.keyLimits:  entry = AES/GCM/NoPadding KeyUpdate 2^37. AES/GCM/NOPADDING:KEYUPDATE = 137438953472
+...</pre>
+
+<p>The debug output lists unsupported and disabled cipher
+suites:</p>
+
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.150 EDT|SSLContextImpl.java:401|Ignore disabled cipher suite: TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA
+javax.net.ssl|ALL|01|main|2018-08-18 01:04:47.150 EDT|SSLContextImpl.java:410|Ignore unsupported cipher suite: TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.152 EDT|SSLContextImpl.java:401|Ignore disabled cipher suite: TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+...</pre>
+
+<h2><a name="initialize-x509keymanager">Initialize X509KeyManager</a></h2>
+
+<p>The <code>X509KeyManager</code> is initialized. It discovers that there is
+one keyEntry in the supplied KeyStore for a subject called
+"duke". If this application wants to authenticate itself, then
+the <code>X509KeyManager</code> searches its list of keyEntries for an
+appropriate credential.</p>
+
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.224 EDT|Sun<code>X509KeyManager</code>Impl.java:164|found key for : duke (
+  "certificate" : {
+    "version"            : "v1",
+    "serial number"      : "3B 0A FA 66",
+    "signature algorithm": "MD5withRSA",
+    "issuer"             : "CN=Duke, OU=Java Software, O="Sun Microsystems, Inc.", L=Cupertino, ST=CA, C=US",
+    "not before"         : "2001-05-22 19:46:46.000 EDT",
+    "not  after"         : "2011-05-22 19:46:46.000 EDT",
+    "subject"            : "CN=Duke, OU=Java Software, O="Sun Microsystems, Inc.", L=Cupertino, ST=CA, C=US",
+    "subject public key" : "RSA"}
+)
+...</pre>
+
+<h2><a name="initialize-a-trustmanager">Initialize a TrustManager</a></h2>
+
+<p>A <code>TrustManager</code> is initialized and it finds in the truststore
+several certificates from various Certificate Authorities (CAs).
+It also finds a self-signed certificate with a distinguished name
+&ldquo;localhost&rdquo;. A server that presents valid credentials
+(certificates) that chain back to a trusted certificate in the
+truststore will itself be trusted.</p>
+
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.229 EDT|TrustStoreManager.java:112|trustStore is: /my_home_directory/jssesamples/samples/samplecacerts
+trustStore type is: pkcs12
+trustStore provider is: 
+the last modified time is: Tue Dec 11 06:43:38 EST 2012
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.229 EDT|TrustStoreManager.java:311|Reload the trust store
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.264 EDT|TrustStoreManager.java:318|Reload trust certs
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.266 EDT|TrustStoreManager.java:323|Reloaded 32 trust certs
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.322 EDT|X509TrustManagerImpl.java:79|adding as trusted certificates (
+  "certificate" : {
+    "version"            : "v1",
+    "serial number"      : "00 9B 7E 06 49 A3 3E 62 B9 D5 EE 90 48 71 29 EF 57",
+    "signature algorithm": "SHA1withRSA",
+    "issuer"             : "CN=VeriSign Class 3 Public Primary Certification Authority - G3, OU="(c) 1999 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US",
+    "not before"         : "1999-09-30 20:00:00.000 EDT",
+    "not  after"         : "2036-07-16 19:59:59.000 EDT",
+    "subject"            : "CN=VeriSign Class 3 Public Primary Certification Authority - G3, OU="(c) 1999 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US",
+    "subject public key" : "RSA"},
+  "certificate" : {
+    "version"            : "v1",
+    "serial number"      : "61 70 CB 49 8C 5F 98 45 29 E7 B0 A6 D9 50 5B 7A",
+    "signature algorithm": "SHA1withRSA",
+    "issuer"             : "CN=VeriSign Class 2 Public Primary Certification Authority - G3, OU="(c) 1999 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US",
+    "not before"         : "1999-09-30 20:00:00.000 EDT",
+    "not  after"         : "2036-07-16 19:59:59.000 EDT",
+    "subject"            : "CN=VeriSign Class 2 Public Primary Certification Authority - G3, OU="(c) 1999 VeriSign, Inc. - For authorized use only", OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US",
+    "subject public key" : "RSA"},
+...
+  "certificate" : {
+    "version"            : "v1",
+    "serial number"      : "41 00 44 46",
+    "signature algorithm": "MD5withRSA",
+    "issuer"             : "CN=localhost, OU=Widget Development Group, O="Ficticious Widgets, Inc.", L=Sunnyvale, ST=CA, C=US",
+    "not before"         : "2004-07-22 18:48:38.000 EDT",
+    "not  after"         : "2011-05-22 18:48:38.000 EDT",
+    "subject"            : "CN=localhost, OU=Widget Development Group, O="Ficticious Widgets, Inc.", L=Sunnyvale, ST=CA, C=US",
+    "subject public key" : "RSA"},
+...</pre>
+
+
+<h2><a name="perform-additional-initialization">Perform Additional Initialization</a></h2>
+
+<p>The example performs additional initialization code, then
+connects to the server.</p>
+
+<pre class="codeblock">javax.net.ssl|ALL|01|main|2018-08-18 01:04:47.326 EDT|SSLContextImpl.java:115|trigger seeding of SecureRandom
+javax.net.ssl|ALL|01|main|2018-08-18 01:04:47.524 EDT|SSLContextImpl.java:119|done seeding of SecureRandom
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.562 EDT|HandshakeContext.java:291|Ignore unsupported cipher suite: TLS_AES_128_GCM_SHA256 for TLS12
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.563 EDT|HandshakeContext.java:291|Ignore unsupported cipher suite: TLS_AES_256_GCM_SHA384 for TLS12
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.577 EDT|HandshakeContext.java:291|Ignore unsupported cipher suite: TLS_AES_128_GCM_SHA256 for TLS11
+...</pre>
+
+<p>The debug output also notifies you of disabled, unsupported,
+or unavailable extensions and signature algorithms:</p>
+
+<pre class="codeblock">javax.net.ssl|WARNING|01|main|2018-08-18 01:04:47.695 EDT|ServerNameExtension.java:255|Unable to indicate server name
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.695 EDT|SSLExtensions.java:235|Ignore, context unavailable extension: server_name
+javax.net.ssl|WARNING|01|main|2018-08-18 01:04:47.703 EDT|SignatureScheme.java:282|Signature algorithm, ed25519, is not supported by the underlying providers
+javax.net.ssl|WARNING|01|main|2018-08-18 01:04:47.704 EDT|SignatureScheme.java:282|Signature algorithm, ed448, is not supported by the underlying providers
+javax.net.ssl|ALL|01|main|2018-08-18 01:04:47.724 EDT|SignatureScheme.java:358|Ignore disabled signature sheme: rsa_md5
+javax.net.ssl|INFO|01|main|2018-08-18 01:04:47.724 EDT|AlpnExtension.java:161|No available application protocols
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.724 EDT|SSLExtensions.java:235|Ignore, context unavailable extension: application_layer_protocol_negotiation
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.725 EDT|SSLExtensions.java:235|Ignore, context unavailable extension: cookie
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.763 EDT|SSLExtensions.java:235|Ignore, context unavailable extension: renegotiation_info
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.763 EDT|PreSharedKeyExtension.java:606|No session to resume.
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.763 EDT|SSLExtensions.java:235|Ignore, context unavailable extension: pre_shared_key
+...</pre>
+
+<h2><a name="send-clienthello-message">Send ClientHello Message</a></h2>
+
+<p>The client sends a ClientHello message to the server. This
+message specifies the following:</p>
+
+<ul>
+<li>
+<p>Client version: For TLS 1.3, this has a fixed value, TLSv1.2;
+TLS 1.3 uses the extension supported_versions and not this field
+to negotiate protocol version</p>
+</li>
+<li>
+<p>Random: A random value used to initialize the cryptographic
+algorithms</p>
+</li>
+<li>
+<p>Session ID: Previous versions of TLS use this ID to support a
+session resumption feature</p>
+</li>
+<li>
+<p>Cipher Suites: The list of cipher suites that the client
+requests; depending on the enabled cipher suites, there may be a
+broad mix of cipher suite names, some of which are only for
+TLSv1.3 while others are for TLSv1.2 and earlier</p>
+</li>
+<li>
+<p>Compression methods: For TLS 1.3, this must have the value
+0</p>
+</li>
+<li>
+<p>Extensions:</p>
+<ul>
+<li>
+<p>status_request: The client requests OCSP; see
+<a href="ocsp.html">Client-Driven OCSP and OCSP Stapling</a>.</p>
+</li>
+<li>
+<p>supported_groups: Lists the named groups that the client
+supports for key exchange. These named groups include elliptic
+curve groups (ECDHE) and finite field groups (DHE). The
+ClientHello message must include this message if it&rsquo;s using
+ECDHE or DHE key exchange.</p>
+</li>
+<li>
+<p>ec_point_formats: Lists the elliptical curve point formats
+that the client can parse; in this example, the client can parse
+uncompressed point formats only. Other formats include compressed
+and ansiX962_compressed_prime.</p>
+</li>
+<li>
+<p>signature algorithms: Lists which signature algorithms may be
+used in CertificateVerify messages</p>
+</li>
+<li>
+<p>signature_algorithms_cert: Lists which signature algorithms
+may be used in digital signatures</p>
+</li>
+<li>
+<p>status_request_v2: Enables clients to specify and support
+several certificate status methods. Note that this extension is
+deprecated for TLS 1.3.</p>
+</li>
+<li>
+<p>extended_master_secret: In TLS 1.2 and earlier, this extension
+requests that both sides digest larger parts of the handshake
+transcript into the master secret than the original version of
+the protocol did; see <a href=
+"https://tools.ietf.org/html/rfc7627">RFC
+7627</a>. The extension is included in TLS 1.3 handshakes in case
+a TLS 1.2 handshake is negotiated.</p>
+</li>
+<li>
+<p>supported_versions: Lists which versions of TLS the client
+supports. In particular, if the client requests TLS 1.3, then the
+client version field has the value TLSv1.2 and this extension
+contains the value TLSv1.3; if the client requests TLS 1.2, then
+the client version field has the value TLSv1.2 and this extension
+either doesn&rsquo;t exist or contains the value TLSv1.2 but not
+the value TLSv1.3.</p>
+</li>
+<li>
+<p>psk_key_exchange_modes: Lists which key exchange modes that
+may be used with pre-shared keys (PSKs); in this example, the
+client supports PSK with (EC)DHE key establishment (psk_dhe_ke).
+In this mode, the client and server must supply values for the
+key_share extension.</p>
+</li>
+<li>
+<p>key_share: Lists cryptographic parameters for key exchange. It
+contains a field named client_shares that contains this list.
+Each item of this list contains two fields: group and
+key_exchange. This example contains key exchange information for
+the elliptical curve secp256r1.</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.769 EDT|ClientHello.java:633|Produced ClientHello handshake message (
+"ClientHello": {
+  "client version"      : "TLSv1.2",
+  "random"              : "64 CF 68 A1 CF AB B1 6F 43 F6 DE 1B 49 49 DE 5A 42 9A 71 DD CB 9A E3 9F 32 00 E8 87 7A 00 DA C6",
+  "session id"          : "02 0D BE 1B A4 5F F2 E8 B6 31 9D A4 EF F3 22 84 C3 58 0B 5C C0 57 0F A5 6D 8A 83 EB DC DA B1 B6",
+  "cipher suites"       : "[TLS_AES_128_GCM_SHA256(0x1301), TLS_AES_256_GCM_SHA384(0x1302), TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384(0xC02C), TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256(0xC02B), TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384(0xC030), TLS_RSA_WITH_AES_256_GCM_SHA384(0x009D), TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384(0xC02E), TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384(0xC032), TLS_DHE_RSA_WITH_AES_256_GCM_SHA384(0x009F), TLS_DHE_DSS_WITH_AES_256_GCM_SHA384(0x00A3), TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256(0xC02F), TLS_RSA_WITH_AES_128_GCM_SHA256(0x009C), TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256(0xC02D), TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256(0xC031), TLS_DHE_RSA_WITH_AES_128_GCM_SHA256(0x009E), TLS_DHE_DSS_WITH_AES_128_GCM_SHA256(0x00A2), TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384(0xC024), TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384(0xC028), TLS_RSA_WITH_AES_256_CBC_SHA256(0x003D), TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384(0xC026), TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384(0xC02A), TLS_DHE_RSA_WITH_AES_256_CBC_SHA256(0x006B), TLS_DHE_DSS_WITH_AES_256_CBC_SHA256(0x006A), TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA(0xC00A), TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA(0xC014), TLS_RSA_WITH_AES_256_CBC_SHA(0x0035), TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA(0xC005), TLS_ECDH_RSA_WITH_AES_256_CBC_SHA(0xC00F), TLS_DHE_RSA_WITH_AES_256_CBC_SHA(0x0039), TLS_DHE_DSS_WITH_AES_256_CBC_SHA(0x0038), TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256(0xC023), TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256(0xC027), TLS_RSA_WITH_AES_128_CBC_SHA256(0x003C), TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256(0xC025), TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256(0xC029), TLS_DHE_RSA_WITH_AES_128_CBC_SHA256(0x0067), TLS_DHE_DSS_WITH_AES_128_CBC_SHA256(0x0040), TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA(0xC009), TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA(0xC013), TLS_RSA_WITH_AES_128_CBC_SHA(0x002F), TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA(0xC004), TLS_ECDH_RSA_WITH_AES_128_CBC_SHA(0xC00E), TLS_DHE_RSA_WITH_AES_128_CBC_SHA(0x0033), TLS_DHE_DSS_WITH_AES_128_CBC_SHA(0x0032), TLS_EMPTY_RENEGOTIATION_INFO_SCSV(0x00FF)]",
+  "compression methods" : "00",
+  "extensions"          : [
+    "status_request (5)": {
+      "certificate status type": ocsp
+      "OCSP status request": {
+        "responder_id": &lt;empty&gt;
+        "request extensions": {
+          &lt;empty&gt;
+        }
+      }
+    },
+    "supported_groups (10)": {
+      "versions": [secp256r1, secp384r1, secp521r1, sect283k1, sect283r1, sect409k1, sect409r1, sect571k1, sect571r1, secp256k1, ffdhe2048, ffdhe3072, ffdhe4096, ffdhe6144, ffdhe8192]
+    },
+    "ec_point_formats (11)": {
+      "formats": [uncompressed]
+    },
+    "signature_algorithms (13)": {
+      "signature schemes": [ecdsa_secp256r1_sha256, ecdsa_secp384r1_sha384, ecdsa_secp512r1_sha512, rsa_pss_rsae_sha256, rsa_pss_rsae_sha384, rsa_pss_rsae_sha512, rsa_pss_pss_sha256, rsa_pss_pss_sha384, rsa_pss_pss_sha512, rsa_pkcs1_sha256, rsa_pkcs1_sha384, rsa_pkcs1_sha512, dsa_sha256, ecdsa_sha1, rsa_pkcs1_sha1, dsa_sha1]
+    },
+    "signature_algorithms_cert (50)": {
+      "signature schemes": [ecdsa_secp256r1_sha256, ecdsa_secp384r1_sha384, ecdsa_secp512r1_sha512, rsa_pss_rsae_sha256, rsa_pss_rsae_sha384, rsa_pss_rsae_sha512, rsa_pss_pss_sha256, rsa_pss_pss_sha384, rsa_pss_pss_sha512, rsa_pkcs1_sha256, rsa_pkcs1_sha384, rsa_pkcs1_sha512, dsa_sha256, ecdsa_sha1, rsa_pkcs1_sha1, dsa_sha1]
+    },
+    "status_request_v2 (17)": {
+      "cert status request": {
+        "certificate status type": ocsp_multi
+        "OCSP status request": {
+          "responder_id": &lt;empty&gt;
+          "request extensions": {
+            &lt;empty&gt;
+          }
+        }
+      }
+    },
+    "extended_master_secret (23)": {
+      &lt;empty&gt;
+    },
+    "supported_versions (43)": {
+      "versions": [TLSv1.3, TLSv1.2, TLSv1.1, TLSv1]
+    },
+    "psk_key_exchange_modes (45)": {
+      "ke_modes": [psk_dhe_ke]
+    },
+    "key_share (51)": {
+      "client_shares": [  
+        {
+          "named group": secp256r1
+          "key_exchange": {
+            0000: 04 1F 80 50 D9 C6 03 45   7B 59 0F A7 B6 9E AE 39  ...P...E.Y.....9
+            0010: 37 BE B0 5B 09 D8 91 37   72 5D 2B 8E 01 0A 84 56  7..[...7r]+....V
+            0020: 99 0D 37 49 8F 92 61 A9   D6 54 E1 3B EE D1 E8 D2  ..7I..a..T.;....
+            0030: 92 22 F9 17 CE A7 F8 51   47 C9 1E 5C D6 59 0F 4F  .".....QG..\.Y.O
+            0040: 55 
+          }
+        },
+      ]
+    }
+  ]
+}
+)
+...</pre>
+
+<h2><a name="show-actual-data-sent-and-read">Show Actual Data Sent and Read</a></h2>
+
+<p>The debug output shows the actual data sent to the raw output
+object (in this case, an <code>OutputStream</code>):</p>
+
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.770 EDT|SSLSocketOutputRecord.java:217|WRITE: TLS13 handshake, length = 405
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.774 EDT|SSLSocketOutputRecord.java:231|Raw write (
+  0000: 16 03 03 01 95 01 00 01   91 03 03 64 CF 68 A1 CF  ...........d.h..
+  0010: AB B1 6F 43 F6 DE 1B 49   49 DE 5A 42 9A 71 DD CB  ..oC...II.ZB.q..
+  0020: 9A E3 9F 32 00 E8 87 7A   00 DA C6 20 02 0D BE 1B  ...2...z... ....
+...</pre>
+
+<p>Then, the debug output shows the raw data read from the input
+device (<code>InputStream</code>) before any processing has been
+performed:</p>
+
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.862 EDT|SSLSocketInputRecord.java:215|READ: TLSv1.2 handshake, length = 155
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.863 EDT|SSLSocketInputRecord.java:474|Raw read (
+  0000: 02 00 00 97 03 03 66 24   0F F6 6D 4A 0C 5A A1 23  ......f$..mJ.Z.#
+  0010: F6 5D 4B 87 B1 6E AC 13   BB 4D C1 A4 0F F0 2C EF  .]K..n...M....,.
+  0020: D7 4F 03 11 19 B1 20 02   0D BE 1B A4 5F F2 E8 B6  .O.... ....._...
+...</pre>
+
+<p>Whenever the client sends or reads a message, the debug output
+shows the raw data sent or read and how any messages (and their
+extensions) have been processed. The following sections omit
+these parts of the debug output.</p>
+
+<h2><a name="read-serverhello-message">Read ServerHello Message</a></h2>
+
+<p>At this point, TLS 1.3 has been negotiated. The server selects
+the TLS version and replies using a combination of the server
+version and the supported_versions extension. In this case, a
+TLSv1.3 protocol was indicated.</p>
+<p>The ServerHello message specifies the following:</p>
+<ul>
+<li>
+<p>Server version: For TLS 1.3, this must have the value TLSv1.2;
+TLS 1.3 uses the extension supported_versions and not this field
+to indicate the negotiated protocol version</p>
+</li>
+<li>
+<p>Random: Also used to initialize the cryptographic
+algorithms</p>
+</li>
+<li>
+<p>Session ID: For TLS 1.3, this has the same value as the
+corresponding field of the ClientHello message</p>
+</li>
+<li>
+<p>Cipher suite: The selected cipher suite; in this example, it
+is TLS_AES_128_GCM_SHA256</p>
+</li>
+<li>
+<p>Compression methods: For TLS 1.3, this must have the value
+0</p>
+</li>
+<li>
+<p>Extensions</p>
+<ul>
+<li>
+<p>supported_versions: Specifies which TLS version the server
+uses. Note that for TLS 1.3, the server must use the value of the
+ClientHello message&rsquo;s supported_versions extension for
+version negotiation instead of the value of the client version
+field.</p>
+</li>
+<li>
+<p>key_share: The named group and key values for a ECDHE key
+exchange</p>
+</li>
+</ul>
+</li>
+</ul>
+
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.863 EDT|SSLSocketInputRecord.java:251|READ: TLSv1.2 handshake, length = 155
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.867 EDT|ServerHello.java:862|Consuming ServerHello handshake message (
+"ServerHello": {
+  "server version"      : "TLSv1.2",
+  "random"              : "66 24 0F F6 6D 4A 0C 5A A1 23 F6 5D 4B 87 B1 6E AC 13 BB 4D C1 A4 0F F0 2C EF D7 4F 03 11 19 B1",
+  "session id"          : "02 0D BE 1B A4 5F F2 E8 B6 31 9D A4 EF F3 22 84 C3 58 0B 5C C0 57 0F A5 6D 8A 83 EB DC DA B1 B6",
+  "cipher suite"        : "TLS_AES_128_GCM_SHA256(0x1301)",
+  "compression methods" : "00",
+  "extensions"          : [
+    "supported_versions (43)": {
+      "selected version": [TLSv1.3]
+    },
+    "key_share (51)": {
+      "server_share": {
+        "named group": secp256r1
+        "key_exchange": {
+          0000: 04 DE 5B 20 0E FD EB 6E   DA 70 C2 D0 FA 0D 4C 53  ..[ ...n.p....LS
+          0010: 6D E1 9E 67 77 65 36 AF   B5 EB E6 D2 88 92 9B EE  m..gwe6.........
+          0020: E4 97 A3 B3 C1 FB D8 29   3B 92 87 D2 B3 9E 3D AA  .......);.....=.
+          0030: 14 99 1E 84 8F C2 E9 E3   E1 AC 9A 12 95 F0 26 B5  ..............&amp;.
+          0040: 88 
+        }
+      },
+    }
+  ]
+}
+)
+...</pre>
+
+<p>The session is initialized:</p>
+
+<pre class="codeblock">javax.net.ssl|ALL|01|main|2018-08-18 01:04:47.873 EDT|SSLSessionImpl.java:203|Session initialized:  Session(1534568687873|TLS_AES_128_GCM_SHA256)
+...</pre>
+
+<h2><a name="read-encryptionextensions-message">Read EncryptedExtensions Message</a></h2>
+
+<p>At this point in the handshake, enough cryptographic
+information has been exchanged, and the remainder of the
+handshake will be performed encrypted.</p>
+<p>The EncryptedExtensions message contains responses to
+ClientHello extensions that are not required to determine the
+cryptographic parameters, other than those that are specific to
+individual certificates; in this example, it returns the list of
+named groups that the client supports for key exchange.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.942 EDT|EncryptedExtensions.java:171|Consuming EncryptedExtensions handshake message (
+"EncryptedExtensions": [
+  "supported_groups (10)": {
+    "versions": [secp256r1, secp384r1, secp521r1, sect283k1, sect283r1, sect409k1, sect409r1, sect571k1, sect571r1, secp256k1, ffdhe2048, ffdhe3072, ffdhe4096, ffdhe6144, ffdhe8192]
+  }
+]
+)
+...</pre>
+
+<h2><a name="read-servers-certificaterequest-message">Read Server&rsquo;s CertificateRequest Message</a></h2>
+<p>The server sends the CertificateRequest message if
+certificate-based client authentication is desired. This message
+contains the desired parameters for that certificate. It
+specifies the following:</p>
+<ul>
+<li>
+<p>certificate_request_context: A string that identifies the
+certificate request; the value of this field is of zero length
+unless it&rsquo;s being used for post-handshake
+authentication</p>
+</li>
+<li>
+<p>Extensions: The following two extensions indicate which
+signature algorithms may be used in digital signatures:</p>
+<ul>
+<li>
+<p>signature_algorithms: Originally appearing in TLS 1.2, applies
+to signatures in CertificateVerify messages</p>
+</li>
+<li>
+<p>signature_algorithms_cert: Applies to signatures in
+certificates</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.947 EDT|CertificateRequest.java:864|Consuming CertificateRequest handshake message (
+"CertificateRequest": {
+  "certificate_request_context": "",
+  "extensions": [
+    "signature_algorithms (13)": {
+      "signature schemes": [ecdsa_secp256r1_sha256, ecdsa_secp384r1_sha384, ecdsa_secp512r1_sha512, rsa_pss_rsae_sha256, rsa_pss_rsae_sha384, rsa_pss_rsae_sha512, rsa_pss_pss_sha256, rsa_pss_pss_sha384, rsa_pss_pss_sha512, rsa_pkcs1_sha256, rsa_pkcs1_sha384, rsa_pkcs1_sha512, dsa_sha256, ecdsa_sha1, rsa_pkcs1_sha1, dsa_sha1]
+    },
+    "signature_algorithms_cert (50)": {
+      "signature schemes": [ecdsa_secp256r1_sha256, ecdsa_secp384r1_sha384, ecdsa_secp512r1_sha512, rsa_pss_rsae_sha256, rsa_pss_rsae_sha384, rsa_pss_rsae_sha512, rsa_pss_pss_sha256, rsa_pss_pss_sha384, rsa_pss_pss_sha512, rsa_pkcs1_sha256, rsa_pkcs1_sha384, rsa_pkcs1_sha512, dsa_sha256, ecdsa_sha1, rsa_pkcs1_sha1, dsa_sha1]
+    }
+  ]
+}
+)
+...</pre>
+
+
+<h2><a name="read-servers-certificate-message">Read Server&rsquo;s Certificate Message</a></h2>
+<p>The Certificate message contains the authentication
+certificate and any other supporting certificates in the
+certificate chain. It specifies the following:</p>
+<ul>
+<li>certificate_request_context: For server authentication, this
+field is empty</li>
+<li>certificate_list: Contains a certificate chain signed by a
+signature algorithm advertised by the client. However, in this
+example, a self-signed certificate (a certificate whose subject
+and issue name are identical) was received. This same self-signed
+certificate was discovered earlier during initialization, so it
+will be trusted when the <code>TrustManager</code> is actually called to
+verify the received certificate.</li>
+</ul>
+<p>There are many different ways of establishing trust, so if the
+default <code>X509TrustManager</code> is not doing the types of trust
+management you need, you can supply your own <code>X509TrustManager</code> to
+<code>SSLContext</code>.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:47.964 EDT|CertificateMessage.java:1148|Consuming server Certificate handshake message (
+"Certificate": {
+  "certificate_request_context": "",
+  "certificate_list": [  
+  {
+    "certificate" : {
+      "version"            : "v1",
+      "serial number"      : "41 00 44 46",
+      "signature algorithm": "MD5withRSA",
+      "issuer"             : "CN=localhost, OU=Widget Development Group, O="Ficticious Widgets, Inc.", L=Sunnyvale, ST=CA, C=US",
+      "not before"         : "2004-07-22 18:48:38.000 EDT",
+      "not  after"         : "2011-05-22 18:48:38.000 EDT",
+      "subject"            : "CN=localhost, OU=Widget Development Group, O="Ficticious Widgets, Inc.", L=Sunnyvale, ST=CA, C=US",
+      "subject public key" : "RSA"}
+    "extensions": {
+      &lt;no extension&gt;
+    }
+  },
+]
+}
+)
+...</pre>
+<p>The client recognizes this certificate and can trust it.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.165 EDT|X509TrustManagerImpl.java:242|Found trusted certificate (
+  "certificate" : {
+    "version"            : "v1",
+    "serial number"      : "41 00 44 46",
+    "signature algorithm": "MD5withRSA",
+    "issuer"             : "CN=localhost, OU=Widget Development Group, O="Ficticious Widgets, Inc.", L=Sunnyvale, ST=CA, C=US",
+    "not before"         : "2004-07-22 18:48:38.000 EDT",
+    "not  after"         : "2011-05-22 18:48:38.000 EDT",
+    "subject"            : "CN=localhost, OU=Widget Development Group, O="Ficticious Widgets, Inc.", L=Sunnyvale, ST=CA, C=US",
+    "subject public key" : "RSA"}
+)
+...</pre>
+
+<h2><a name="read-servers-certificateverify-message">Read Server&rsquo;s CertificateVerify Message</a></h2>
+<p>The certificate sent by the server is verified by the
+CertificateVerify message. The message is used to provide
+explicit proof that the server has the private key corresponding
+to its certificate. This message specifies the following:</p>
+<ul>
+<li>
+<p>Signature algorithm: The signature algorithm used; in this
+example, it is rsa_pss_rsae_sha256.</p>
+</li>
+<li>
+<p>Signature: The signature over the entire handshake using the
+private key corresponding to the public key in the Certificate
+message</p>
+</li>
+</ul>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.194 EDT|CertificateVerify.java:1128|Consuming CertificateVerify handshake message (
+"CertificateVerify": {
+  "signature algorithm": rsa_pss_rsae_sha256
+  "signature": {
+    0000: 0F 25 DD 62 03 6B 8C 8F   22 C7 8D 46 A2 A6 45 39  .%.b.k.."..F..E9
+    0010: 08 8D 51 1E 48 52 66 A4   F8 28 D3 FD 18 93 70 C6  ..Q.HRf..(....p.
+    0020: 32 74 C1 CC 0A C4 60 41   50 AF 7C DA 0C DB 92 F9  2t....`AP.......
+    0030: 14 CB EF 15 7F 3E 52 16   F7 CC 8A 7C C9 1F 42 CA  .....&gt;R.......B.
+    0040: 90 8D FA B7 F2 3A 46 7E   F7 9F 43 CE C6 AA 15 59  .....:F...C....Y
+    0050: EE AD 34 10 FF B7 BC FD   A2 F7 F3 1A FA 7F 26 61  ..4...........&amp;a
+    0060: 80 2B 50 3A 8A 9E 5C 0E   4C A6 24 DA E6 3D 71 FA  .+P:..\.L.$..=q.
+    0070: AE 78 79 D2 DA 36 DE C1   A6 BC 18 46 04 CE 03 4E  .xy..6.....F...N
+  }
+}
+)
+...</pre>
+
+
+<h2><a name="read-servers-finished-message">Read Server&rsquo;s Finished Message</a></h2>
+<p>The server sends a Finished message. This message contains a
+Message Authentication Code (MAC) over the entire handshake.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-17 01:56:26.764 EDT|Finished.java:860|Consuming server Finished handshake message (
+"Finished": {
+  "verify data": {
+    0000: CA 7B 74 A6 79 36 ED 62   A7 0E 14 9D 9F D0 4A 0F  ..t.y6.b......J.
+    0010: 02 4C 78 BB E2 89 A2 C6   E8 BD 28 CA E7 D9 DB 68  .Lx.......(....h
+  }'}
+)
+...
+</pre>
+
+
+<h2><a name="send-certificate-message">Send Certificate Message</a></h2>
+<p>The client sends a Certificate message because the server
+requested client authentication through a CertificateRequest
+message. The certificate message specifies similar information as
+the server&rsquo;s Certificate message. The client needs to send
+credentials back to the sever, so its <code>X509KeyManager</code> is
+consulted. The client looks for a match between the list of
+accepted issuers and the certificates that are in the KeyStore.
+In this case, there is a match: the client has the credentials
+for "duke". It's now up to the server's <code>X509TrustManager</code> to
+decide whether to accept these credentials.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.222 EDT|CertificateMessage.java:1116|Produced client Certificate message (
+"Certificate": {
+  "certificate_request_context": "",
+  "certificate_list": [  
+  {
+    "certificate" : {
+      "version"            : "v1",
+      "serial number"      : "3B 0A FA 66",
+      "signature algorithm": "MD5withRSA",
+      "issuer"             : "CN=Duke, OU=Java Software, O="Sun Microsystems, Inc.", L=Cupertino, ST=CA, C=US",
+      "not before"         : "2001-05-22 19:46:46.000 EDT",
+      "not  after"         : "2011-05-22 19:46:46.000 EDT",
+      "subject"            : "CN=Duke, OU=Java Software, O="Sun Microsystems, Inc.", L=Cupertino, ST=CA, C=US",
+      "subject public key" : "RSA"}
+    "extensions": {
+      &lt;no extension&gt;
+    }
+  },
+]
+}
+)
+...</pre>
+
+
+<h2><a name="send-certificateverify-message">Send CertificateVerify Message</a></h2>
+<p>As with the CertificateVerify message sent by the server, the
+certificate sent by the client is verified by the
+CertificateVerify message. The message is used to provide
+explicit proof that the client has the private key corresponding
+to its certificate.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.268 EDT|CertificateVerify.java:1097|Produced client CertificateVerify handshake message (
+"CertificateVerify": {
+  "signature algorithm": rsa_pss_rsae_sha256
+  "signature": {
+    0000: 91 C2 F7 5D 8D 90 B4 82   E4 BA C6 23 08 E2 B4 DD  ...].......#....
+    0010: 8D 95 8F 9F 31 4F 26 F3   97 3B FB 5B 10 4D AE F6  ....1O&amp;..;.[.M..
+    0020: 71 78 FB 7B 3A 4F F6 1B   BF D2 E3 FB BE 53 F6 70  qx..:O.......S.p
+    0030: 7E 73 83 F4 9A 5E 08 19   63 C1 97 4C 10 B1 C7 3F  .s...^..c..L...?
+    0040: 4A 7D EF 4A 30 44 15 9F   D0 F2 8B C4 D1 45 69 B1  J..J0D.......Ei.
+    0050: D9 DB 45 83 C4 11 91 B3   81 5E 69 F4 5C 2A CF 69  ..E......^i.\*.i
+    0060: D3 A6 7E 75 B4 C9 30 FB   5B AC BA 9F A3 C5 0C FD  ...u..0.[.......
+    0070: 9A 62 A4 DA 5A 80 6B 72   CD F5 A5 53 AD 14 74 1C  .b..Z.kr...S..t.
+  }
+}
+)</pre>
+
+
+<h2><a name="send-finished-message">Send Finished Message</a></h2>
+<p>The client then sends its Finished message to the sever:</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.271 EDT|Finished.java:658|Produced client Finished handshake message (
+"Finished": {
+  "verify data": {
+    0000: 93 04 B5 23 8F 48 3A CF   4A 85 35 9E 5F E0 1D 4C  ...#.H:.J.5._..L
+    0010: 9C 65 06 D4 E8 B4 ED 8F   01 6B 1E A2 DD 18 BD 78  .e.......k.....x
+  }'}
+)
+...</pre>
+<p>The client and server have verified the Finished messages that
+they have received from their peers. Both sides may now send and
+receive application data over the connection.</p>
+
+
+
+<h2><a name="exchange-application-data-client-sends-get-command">Exchange Application Data, Client Sends GET Command</a></h2>
+<p>The server and client are ready to exchange application data.
+The client sends a "GET /index.html HTTP1.0" command.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.375 EDT|SSLCipher.java:2019|Plaintext before ENCRYPTION (
+  0000: 47 45 54 20 2F 69 6E 64   65 78 2E 68 74 6D 6C 20  GET /index.html 
+  0010: 48 54 54 50 2F 31 2E 30   0D 0A 0D 0A 17 00 00 00  HTTP/1.0........
+  0020: 00 00 00 00 00 00 00 00   00 00 00 00 00           .............
+)
+...</pre>
+<p>Note that data over the wire is encrypted:</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.385 EDT|SSLSocketOutputRecord.java:295|Raw write (
+  0000: 17 03 03 00 3D 90 BF D1   81 E6 A3 E7 DA 50 A9 8B  ....=........P..
+  0010: 18 F5 4B 30 AE 59 41 81   25 C4 9E 3E 70 29 5D C6  ..K0.YA.%..&gt;p)].
+  0020: 64 49 0B 4A 0E 93 E3 8F   DC 42 BA B5 21 42 38 88  dI.J.....B..!B8.
+  0030: 62 4D 0C 86 FE 9A 8C B9   95 EF 89 93 61 3C 13 69  bM..........a&lt;.i
+  0040: 6C 45                                              lE
+)
+...</pre>
+
+
+<h2><a name="read-newsessionticket-message">Read NewSessionTicket Message</a></h2>
+<p>After the server receives the client&rsquo;s Finished message,
+it can send a NewSessionTicket message anytime, which contains a
+PSK ticket that the client can use for speeding up future
+handshakes.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.517 EDT|NewSessionTicket.java:330|Consuming NewSessionTicket message (
+"NewSessionTicket": {
+  "ticket_lifetime"      : "86,400",
+  "ticket_age_add"       : "&lt;omitted&gt;",
+  "ticket_nonce"         : "01",
+  "ticket"               : "A5 30 8C B6 AD 95 79 E8 2A D1 95 C0 F0 2F 6F AA 9E 97 58 AA 3D 19 82 2D 2C 47 C0 ED BF 64 48 AB",
+  "extensions"           : [
+    &lt;no extension&gt;
+  ]
+}
+)
+</pre>
+<p>A duplicate <code>SSLSession</code> is created with the newly generated PSK
+information attached.</p>
+<pre class="codeblock">javax.net.ssl|ALL|01|main|2018-08-18 01:04:48.517 EDT|<code>SSLSession</code>Impl.java:203|Session initialized:  Session(1534568687873|TLS_AES_128_GCM_SHA256)
+...</pre>
+
+
+<h2><a name="exchange-application-data-server-sends-https-header-and-data">Exchange Application Data, Server Sends HTTPS Header and Data</a></h2>
+<p>The client receives application data from the server, first
+the HTTPS header, then the actual data.</p>
+<pre class="codeblock">javax.net.ssl|ALL|01|main|2018-08-18 01:04:48.517 EDT|<code>SSLSession</code>Impl.java:203|Session initialized:  Session(1534568687873|TLS_AES_128_GCM_SHA256)
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.617 EDT|SSLSocketInputRecord.java:474|Raw read (
+  0000: 17 03 03 00 63                                     ....c
+)
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.618 EDT|SSLSocketInputRecord.java:215|READ: TLSv1.2 application_data, length = 99
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.618 EDT|SSLSocketInputRecord.java:474|Raw read (
+  0000: 65 87 0E 1E 78 F7 AC C4   F7 C6 4D 55 91 6F 72 CC  e...x.....MU.or.
+  0010: 18 2D 74 C3 B6 7B 2A F9   EB 2B F4 A8 C7 FD 09 FA  .-t...*..+......
+  0020: 7E 36 9D F7 88 E7 44 DD   60 AF EB B0 F8 CF E1 64  .6....D.`......d
+  0030: 0D 9B F4 B0 24 C2 BC B1   BF F7 F2 B6 CB E4 2E 39  ....$..........9
+  0040: 78 B8 73 09 91 65 7A 0F   4C 49 DE 9A 7F 7B 42 86  x.s..ez.LI....B.
+  0050: CA 33 87 DB 0D B2 E5 61   3C 70 6F F9 6A 15 A9 74  .3.....a&lt;po.j..t
+  0060: 64 E0 B0                                           d..
+)
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.619 EDT|SSLSocketInputRecord.java:251|READ: TLSv1.2 application_data, length = 99
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.621 EDT|SSLCipher.java:1914|Plaintext after DECRYPTION (
+  0000: 48 54 54 50 2F 31 2E 30   20 32 30 30 20 4F 4B 0D  HTTP/1.0 200 OK.
+  0010: 0A 43 6F 6E 74 65 6E 74   2D 4C 65 6E 67 74 68 3A  .Content-Length:
+  0020: 20 32 35 37 37 0D 0A 43   6F 6E 74 65 6E 74 2D 54   2577..Content-T
+  0030: 79 70 65 3A 20 74 65 78   74 2F 68 74 6D 6C 0D 0A  ype: text/html..
+  0040: 0D 0A                                              ..
+)
+...
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.626 EDT|SSLSocketInputRecord.java:215|READ: TLSv1.2 application_data, length = 2610
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.628 EDT|SSLSocketInputRecord.java:474|Raw read (
+  0000: 69 8D F9 A3 E9 25 09 87   F0 E0 A1 63 12 9D 81 DF  i....%.....c....
+  0010: 42 FC FA 7A 03 74 FD D5   ED 47 6C 5F 61 F2 BB 39  B..z.t...Gl_a..9
+  0020: CF 64 0B B2 10 14 24 99   A3 66 8B D2 13 C9 66 FD  .d....$..f....f.
+...
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.642 EDT|SSLSocketInputRecord.java:251|READ: TLSv1.2 application_data, length = 2610
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.647 EDT|SSLCipher.java:1914|Plaintext after DECRYPTION (
+  0000: 3C 21 44 4F 43 54 59 50   45 20 68 74 6D 6C 20 50  &lt;!DOCTYPE html P
+  0010: 55 42 4C 49 43 20 22 2D   2F 2F 57 33 43 2F 2F 44  UBLIC "-//W3C//D
+  0020: 54 44 20 58 48 54 4D 4C   20 31 2E 30 20 54 72 61  TD XHTML 1.0 Tra
+  0030: 6E 73 69 74 69 6F 6E 61   6C 2F 2F 45 4E 22 0A 20  nsitional//EN". 
+...</pre>
+
+
+<h2><a name="read-servers-alert-message">Read Server&rsquo;s Alert Message</a></h2>
+<p>The server sends a close_notify alert, which notifies the
+client that it won&rsquo;t send anymore messages on this
+connection.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.658 EDT|Alert.java:232|Received alert message (
+"Alert": {
+  "level"      : "warning",
+  "description": "close_notify"
+}
+)</pre>
+
+
+<h2><a name="close-the-connection">Close the Connection</a></h2>
+<p>The server closes the socket and then the TLS connection.</p>
+<pre class="codeblock">javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.661 EDT|SSLSocketImpl.java:1161|close the underlying socket
+javax.net.ssl|DEBUG|01|main|2018-08-18 01:04:48.661 EDT|SSLSocketImpl.java:921|close the ssl connection (passive)
+javax.net.ssl|ALL|01|main|2018-08-18 01:04:48.661 EDT|SSLSocketImpl.java:658|Closing input stream
+javax.net.ssl|ALL|01|main|2018-08-18 01:04:48.661 EDT|SSLSocketImpl.java:728|Closing output stream</pre>
+
+
+
+<!--  footer start -->
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<img id="oraclelogofooter" src=
+"../../../../images/oraclelogo.gif" alt="Oracle and/or its affiliates"
+border="0" width="100" height="29" name=
+"oraclelogofooter" />
+
+<a href="../../../../legal/cpyr.html">Copyright
+&#169;</a> 1993, 2026, Oracle and/or its affiliates. All rights
+reserved.</div>
+<div id="javasecontactus">
+<a href=
+"http://docs.oracle.com/javase/feedback.html">Contact
+Us</a>
+</div>
+</div>
+<!-- footer end -->
+
+<!-- STATIC FOOTER -->
+
+</body>
+</html>
