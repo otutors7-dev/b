@@ -1,0 +1,33 @@
+package com.sunbeam;
+
+import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
+
+//lambda expressions are referenced by functional interface reference.
+//lambda arg scope is limited to lambda expression body/implementation.
+public class Program {
+
+	public static void main(String[] args) {
+		
+		//non-capturing lambda
+		BinaryOperator<Integer> op = (x,y) -> x + y; 
+		int z = 10;
+		//z++; 
+		
+		// capturing lambda - captures (attach) a variable out-side the lambda implementation.
+		// can capture variables that are final or effectively final.
+		BinaryOperator<Integer> op2 = (x,y) -> x + y + z;
+		
+		int a = 22 , b = 7; 
+		Integer r = op.apply(a, b); 
+		System.out.println("res : " + r);
+		
+		
+	}
+
+}
+
+
+
+
+

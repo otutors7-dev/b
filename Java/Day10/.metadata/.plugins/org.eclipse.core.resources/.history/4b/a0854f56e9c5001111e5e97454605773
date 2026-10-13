@@ -1,0 +1,28 @@
+package com.sunbeam;
+
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Program {
+
+	public static void main(String[] args) {
+		//Queue<String> q = new ArrayDeque<>();
+		Queue<String> q = new LinkedList<>(); 
+		q.offer("One"); 
+		q.offer("Two");
+		q.offer("Three");
+		q.offer("Four");
+		
+		System.out.println("Top most ele : " + q.peek());
+		
+		while(!q.isEmpty()) {
+			String ele = q.poll(); 
+			System.out.println(ele);
+		}
+		System.out.println("Removing element from empty queue : " + q.poll());
+		
+
+	}
+
+}

@@ -1,0 +1,17 @@
+package com.sunbeam;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Integer[] arr = {10, 20, 30 , 40 , 50}; 
+		
+		Stream<Integer> strm = Arrays.stream(arr); 
+		
+		strm
+		.forEach(e -> System.out.println(e));
+	}
+
+}

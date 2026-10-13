@@ -1,0 +1,82 @@
+package com.sunbeam;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		String[] names = {"Smita", "Rahul", "Rachana", "Amit", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		 Stream.of(names)
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main2(String[] args) {
+		String[] names = {"Smita", "Rahul", "Rachana", "Amit", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		// Get all names ending with "a"
+		Stream.of(names)
+		.filter(word -> word.endsWith("a"))
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main3(String[] args) {
+		
+		
+		String[] names = {"Smita", "Rahul", "Rachana", "Amit", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		//Convert all names into upper case
+		
+		 Stream.of(names)
+		 .map(word -> word.toUpperCase())
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main4(String[] args) {
+		String[] names = {"Smita", "Rahul", "Rachana", "Amit", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		//sort all names in ascending order
+		
+		 Stream.of(names)
+		 .sorted()
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main5(String[] args) {
+		String[] names = {"Smita", "Rahul", "Rachana", "Amit", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		//sort all names in descending order
+		
+		 Stream.of(names)
+		 .sorted((x,y) -> y.compareTo(x))
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main6(String[] args) {
+		//leave first 2 names and print next 4 names
+		String[] names = {"Smita", "Rahul", "Rachana", "Amit", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		 Stream.of(names)
+		 .skip(2)
+		 .limit(4)
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main7(String[] args) {
+		String[] names = {"Smita", "Rahul", "Rahul", "Rahul", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		//remove duplicate names
+		
+		 Stream.of(names)
+		 .distinct()
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main(String[] args) {
+		//count number of names
+		String[] names = {"Smita", "Rahul", "Rachana", "Amit", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		 long cnt = Stream.of(names)
+		 .count(); 
+		 
+		 System.out.println("Count : " + cnt);
+	}
+
+}
+
+
+

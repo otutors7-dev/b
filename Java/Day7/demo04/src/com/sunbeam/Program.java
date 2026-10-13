@@ -46,13 +46,8 @@ public class Program {
 			Integer r = (Integer) obj; 
 			//System.out.println(obj);
 			System.out.println("r : " + r);
-		
-		}
-		
-		
-		
+		}	
 	}
-
 }
 
 

@@ -1,0 +1,97 @@
+package com.sunbeam;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+//accountNumber , accountType , balance
+class Account{
+	private int accountNumber; 
+	private String accountType; 
+	private double balance; 
+	public Account() {
+		// TODO Auto-generated constructor stub
+	}
+	public Account(int accountNumber, String accountType, double balance) {
+		this.accountNumber = accountNumber;
+		this.accountType = accountType;
+		this.balance = balance;
+	}
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	@Override
+	public String toString() {
+		return String.format("%-20d%-15s%-10.2f",accountNumber,accountType,balance); 
+	}
+	
+}
+//name, address , email
+class Customer{
+	private String name; 
+	private String address; 
+	private String email; 
+	public Customer() {
+		// TODO Auto-generated constructor stub
+	}
+	public Customer(String name, String address, String email) {
+		this.name = name;
+		this.address = address;
+		this.email = email;
+	}
+	@Override
+	public String toString() {
+		return String.format("%-20s%-15s%-10s",name,address,email); 
+	}
+}
+
+public class Program {
+	public static Scanner sc = new Scanner(System.in); 
+	public static Map<Account,Customer> map = new HashMap<>(); 
+	public static Account[] getAccounts( ) {
+		
+	}
+	public static Customer[] getCustomer( ) {
+		
+	}
+	public static void addRecords(Account[] acc , Customer[] cus) {
+		
+	}
+	public static void acceptRecord(int[] accountNumber) {
+		System.out.print("Enter the accountNumber : ");
+		accountNumber[0] = sc.nextInt(); 
+	}
+	public static Customer findCustomer(int accountNumber) {
+		
+	}
+	public static void printCustomer(Customer c) {
+		
+	}
+	public static boolean removeCustomer(int accountNumber) {
+		
+	}
+	public static void printRecords( ) {
+		
+	}
+	public static int menuList()
+	{
+		System.out.println("0.Exit");
+		System.out.println("1.Add Record");
+		System.out.println("2.Find Record");
+		System.out.println("3.Remove Record");
+		System.out.println("4.Print Record");
+		System.out.print("Ennter choice	:	");
+		return sc.nextInt();
+	}	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+
+
+
+
+

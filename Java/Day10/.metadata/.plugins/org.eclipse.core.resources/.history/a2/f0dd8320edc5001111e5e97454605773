@@ -1,0 +1,21 @@
+package com.sunbeam;
+
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Queue<String> q = new PriorityQueue<>(); 
+		q.offer("I");
+		q.offer("N");
+		q.offer("F");
+		q.offer("O");
+		while(!q.isEmpty()) {
+			String e = q.poll(); 
+			System.out.println(e);
+		}
+
+	}
+
+}

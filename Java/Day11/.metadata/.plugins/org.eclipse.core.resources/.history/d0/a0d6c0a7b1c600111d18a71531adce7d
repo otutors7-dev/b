@@ -1,0 +1,44 @@
+package com.sunbeam;
+/*
+interface Printable{
+	void show(); 
+}
+interface Displayable{
+	void show(); 
+}
+//multiple interface inheritance will not lead to any ambiguity error
+// because interfaces doesn't contain any definitions
+//Java 7 Interfaces - No ambiguity
+class Test implements Printable , Displayable{
+	
+}
+public class Program {
+	public static void main(String[] args) {
+		
+	}
+}*/
+interface Printable{
+	void show(); 
+}
+interface Displayable{
+	void show(); 
+}
+class Test implements Printable , Displayable{
+
+	@Override
+	public void show() {
+		System.out.println("Test.show()");
+	}
+	
+}
+public class Program {
+	public static void main(String[] args) {
+		Printable p = new Test(); 
+		p.show();
+	}
+}
+
+
+
+
+

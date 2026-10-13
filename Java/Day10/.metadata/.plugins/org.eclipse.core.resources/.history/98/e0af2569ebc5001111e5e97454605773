@@ -1,0 +1,23 @@
+package com.sunbeam;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
+
+public class Program {
+	public static void main(String[] args) {
+		//Deque as a stack 
+		//Deque<Integer> q = new ArrayDeque<>();
+		Deque<Integer> q = new LinkedList<>(); 
+		q.offerFirst(10);
+		q.offerFirst(20);
+		q.offerFirst(30);
+		q.offerFirst(40);
+		
+		System.out.println("First element : " + q.peek());
+		while(!q.isEmpty()) {
+			Integer e = q.pollFirst(); 
+			System.out.println(e);
+		}
+	}
+}

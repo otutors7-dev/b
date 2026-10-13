@@ -1,0 +1,12 @@
+package com.sunbeam;
+
+public class Rectangle implements Shape {
+	private double length;
+	private double breadth;
+	@Override
+	public double calcArea() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

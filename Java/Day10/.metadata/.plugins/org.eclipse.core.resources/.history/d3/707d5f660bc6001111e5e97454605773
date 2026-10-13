@@ -1,0 +1,15 @@
+package com.sunbeam;
+//accountNumber , accountType , balance
+class Account{
+	private int accountNumber; 
+	private String accountType; 
+	private double balance; 
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

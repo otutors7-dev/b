@@ -1,0 +1,35 @@
+package com.sunbeam;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Map<Integer,String> map = new HashMap<>(); 
+		map.put(415110, "Karad - Satara"); // returns -- null
+		map.put(411052, "Hinjawadi - Pune"); // returns -- null
+		map.put(411046, "Katraj - Pune"); // returns -- null
+		map.put(400027, "Byculla - Mumbai"); // returns -- null
+		map.put(411002, "Bajirao Rd - Pune"); // returns -- null
+		map.put(411037, "Marketyard - Pune"); // returns -- null
+		map.put(411007, "Aundh - Pune"); // returns -- null
+		map.put(411052, "HINJEWADI - Pune"); // when key is duplicate, value is overwritten
+		
+		System.out.println("size : " + map.size());
+		Scanner sc = new Scanner(System.in); 
+		
+		System.out.print("Enter the pin : ");
+		int pin  = sc.nextInt(); 
+		String area = map.get(pin); 
+		System.out.println("Area : " + area);
+	}
+
+}
+
+
+
+
+
+

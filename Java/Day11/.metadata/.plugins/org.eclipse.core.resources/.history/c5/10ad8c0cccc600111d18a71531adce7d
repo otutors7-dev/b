@@ -1,0 +1,14 @@
+package com.sunbeam;
+
+import java.util.stream.Stream;
+
+public class Program {
+
+	public static void main(String[] args) {
+		String[] names = {"Smita", "Rahul", "Rachana", "Amit", "Shraddha", "Nilesh", "Rohan", "Pradnya", "Rohan", "Pooja", "Lalita"};
+		
+		Stream.of(names)
+		.forEach(e -> System.out.println(e));
+	}
+
+}

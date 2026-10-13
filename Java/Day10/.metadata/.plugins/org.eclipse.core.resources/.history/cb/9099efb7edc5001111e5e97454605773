@@ -1,0 +1,41 @@
+package com.sunbeam;
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+public class Program {
+
+	public static void main1(String[] args) {
+	   //(Elements are retrieved as per priority -- decided by Comparable (Natural Ordering)
+		Queue<String> q = new PriorityQueue<>(); 
+		q.offer("I");
+		q.offer("N");
+		q.offer("F");
+		q.offer("O");
+		while(!q.isEmpty()) {
+			String e = q.poll(); 
+			System.out.println(e);
+		}
+
+	}
+	public static void main(String[] args) {
+		class StringDescComparator implements Comparator<String>{
+
+			@Override
+			public int compare(String x, String y) {
+				return y.compareTo(x); 
+			}
+			
+		}
+		Queue<String> q = new PriorityQueue<>(new StringDescComparator()); 
+		q.offer("I");
+		q.offer("N");
+		q.offer("F");
+		q.offer("O");
+		while(!q.isEmpty()) {
+			String e = q.poll(); 
+			System.out.println(e);
+	}
+
+}

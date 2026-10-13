@@ -1,0 +1,179 @@
+package com.sunbeam;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.Set;
+
+//accountNumber , accountType , balance
+class Account{
+	private int accountNumber; 
+	private String accountType; 
+	private double balance; 
+	public Account() {
+		// TODO Auto-generated constructor stub
+	}
+	public Account(int accountNumber, String accountType, double balance) {
+		this.accountNumber = accountNumber;
+		this.accountType = accountType;
+		this.balance = balance;
+	}
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null)
+		  return false; 
+		if(this == obj)
+		  return true; 
+		if(!(obj instanceof Account))
+		  return false; 
+		Account other = (Account) obj;
+		return this.accountNumber == other.accountNumber; 
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(accountNumber); 
+	}
+	@Override
+	public String toString() {
+		return String.format("%-20d%-15s%-10.2f",accountNumber,accountType,balance); 
+	}
+	
+}
+//name, address , email
+class Customer{
+	private String name; 
+	private String address; 
+	private String email; 
+	public Customer() {
+		// TODO Auto-generated constructor stub
+	}
+	public Customer(String name, String address, String email) {
+		this.name = name;
+		this.address = address;
+		this.email = email;
+	}
+	@Override
+	public String toString() {
+		return String.format("%-20s%-15s%-10s",name,address,email); 
+	}
+}
+
+public class Program {
+	public static Scanner sc = new Scanner(System.in); 
+	//public static Map<Account,Customer> map = new HashMap<>();
+	public static Map<Account,Customer> map = new LinkedHashMap<>(); 
+	public static Account[] getAccounts( ) {
+		Account[] arr = new Account[3];
+		arr[0] = new Account(1001, "Saving", 50000);
+		arr[1] = new Account(1002, "Current", 750000);
+		arr[2] = new Account(1003, "Loan", 100000);
+		return arr;
+	}
+	public static Customer[] getCustomer( ) {
+		Customer[] arr = new Customer[3];
+		arr[0] = new Customer("Sagar", "Pune", "sagar@gmail.com");
+		arr[1] = new Customer("Prashant", "Satara", "prashant@yahoo.com");
+		arr[2] = new Customer("Amit", "Mumbai", "amit@rediffmail.com");
+		return arr;
+	}
+	public static void addRecords(Account[] acc , Customer[] cus) {
+		for(int i = 0 ; i < 3 ; i++) {
+			map.put(acc[i], cus[i]); 
+		}
+	}
+	public static void acceptRecord(int[] accountNumber) {
+		System.out.print("Enter the accountNumber : ");
+		accountNumber[0] = sc.nextInt(); 
+	}
+	public static Customer findCustomer(int accountNumber) {
+		Account key = new Account(); 
+		key.setAccountNumber(accountNumber);
+		if(map.containsKey(key)) {
+			Customer c = map.get(key); 
+			return c; 
+		}
+		return null; 
+	}
+	public static void printCustomer(Customer c) {
+		if(c!=null) {
+			System.out.println(c.toString());
+		}
+		else 
+			System.out.println("Customer not found");
+	}
+	public static boolean removeCustomer(int accountNumber) {
+		Account key = new Account(); 
+		key.setAccountNumber(accountNumber);
+		if(map.containsKey(key)) {
+			Customer c = map.remove(key); 
+			System.out.println(c);
+			return true; 
+		}
+		return false; 
+	}
+	public static void printRecords( ) {
+		if(map!=null) {
+			Set<Entry<Account, Customer>> entSet = map.entrySet(); 
+			for (Entry<Account, Customer> en : entSet) {
+				Account keys = en.getKey(); 
+				Customer values = en.getValue(); 
+				System.out.println(keys + " " +  values);
+			}
+		}
+		else 
+			System.out.println("Not available");
+	}
+	public static int menuList()
+	{
+		System.out.println("0.Exit");
+		System.out.println("1.Add Record");
+		System.out.println("2.Find Record");
+		System.out.println("3.Remove Record");
+		System.out.println("4.Print Record");
+		System.out.print("Ennter choice	:	");
+		return sc.nextInt();
+	}	
+	public static void main(String[] args) {
+		int[] accountNumber = new int[1]; 
+		int choice; 
+		while((choice = menuList())!=0) {
+			switch (choice) {
+			case 1:
+				Account[] acc = Program.getAccounts(); 
+				Customer[] cus = Program.getCustomer(); 
+				Program.addRecords(acc, cus);
+				break;
+			case 2: 
+				Program.acceptRecord(accountNumber);
+				Customer c = Program.findCustomer(accountNumber[0]);
+				Program.printCustomer(c);
+				break; 
+			case 3: 
+				Program.acceptRecord(accountNumber);
+				boolean removedStatus = Program.removeCustomer(accountNumber[0]); 
+				System.out.println(removedStatus ? "is removed" : "Not found");
+				break; 
+			case 4: 
+				Program.printRecords();
+				break; 
+			default:
+				System.out.println("Invalid choice");
+				break;
+			}
+		}
+
+	}
+
+}
+
+
+
+
+
+

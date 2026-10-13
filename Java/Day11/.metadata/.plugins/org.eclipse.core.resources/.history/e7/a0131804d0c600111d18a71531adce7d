@@ -1,0 +1,65 @@
+package com.sunbeam;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		Integer[] arr = {10, 20, 30 , 40 , 50}; 
+		
+		Stream<Integer> strm = Arrays.stream(arr); 
+		
+		strm
+		.skip(2)
+		.limit(2)
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main2(String[] args) {
+		List<String> list = new ArrayList<>(); 
+		list.add("A sequence of elements supporting sequential and parallel aggregate operations.");
+		list.add("In addition to Stream, which is a stream of object references, there are primitive specializations for IntStream.");
+		list.add("To perform a computation, stream operations are composed into a stream pipeline.");	
+	
+		Stream<String> strm = list.stream(); 
+		
+		strm
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main3(String[] args) {
+		List<String> list = new ArrayList<>(); 
+		list.add("A sequence of elements supporting sequential and parallel aggregate operations.");
+		list.add("In addition to Stream, which is a stream of object references, there are primitive specializations for IntStream.");
+		list.add("To perform a computation, stream operations are composed into a stream pipeline.");
+		
+		Stream<String> strm = list.stream(); 
+		
+		strm
+		.map(word -> word.toUpperCase())
+		.flatMap(word -> Arrays.stream(word.split(" ")))
+		.forEach(e -> System.out.println(e));
+	}
+	public static void main(String[] args) {
+		 Stream<Integer> strm = Stream.of(1,2,3,4,5,6,7,8,9,10); 
+	
+		 
+		 //Integer res = strm.reduce(0, (x,y) -> x + y);
+		 
+		 Integer res = strm.reduce(0, (x,y) -> {
+			 System.out.println("x : " + x + " y : " + y);
+			 return x + y;   
+		 });
+		 System.out.println("res : " + res);
+	
+	}
+
+}
+
+
+
+
+
+
+

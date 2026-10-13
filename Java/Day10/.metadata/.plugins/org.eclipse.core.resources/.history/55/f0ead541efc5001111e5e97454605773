@@ -1,0 +1,24 @@
+package com.sunbeam;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class Program {
+	
+	 //If this set already contains the element, 
+	 //the call leaves the set unchanged and returns false.
+	public static void main(String[] args) {
+		Set<String> set = new HashSet<>(); 
+		set.add("India"); // return true
+		set.add("Japan"); // return true
+		set.add("India"); // return false - already exists
+		set.add("Gemany"); // return true
+		set.add("Africa"); // return true
+		set.add("India"); // return false - already exists
+		set.add("USA"); // return true
+		set.add("Japan"); // return false - already exists
+		System.out.println("size : " + set.size());
+		
+	}
+
+}

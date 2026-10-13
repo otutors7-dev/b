@@ -1,0 +1,15 @@
+package com.sunbeam;
+interface Printable{
+	void show(); 
+}
+interface Displayable{
+	void show(); 
+}
+class Test implements Printable , Displayable{
+	
+}
+public class Program {
+	public static void main(String[] args) {
+		
+	}
+}

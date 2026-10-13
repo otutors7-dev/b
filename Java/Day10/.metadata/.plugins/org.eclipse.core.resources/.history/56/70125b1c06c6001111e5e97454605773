@@ -1,0 +1,25 @@
+package com.sunbeam;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class Program {
+	public static void getKeys(Map<Integer, String> map) {
+		Set<Integer> keys = map.keySet();
+		for (Integer key : keys) {
+			System.out.println(key);
+		}
+	}
+	public static void main(String[] args) {
+		Map<Integer,String> map = new HashMap<>(); 
+		map.put(100, "DMC");
+		map.put(101, "DESD");
+		map.put(102, "DBDA");
+		map.put(103, "DITISS");
+		map.put(100, "DAC");
+		Program.getKeys(map);
+
+	}
+
+}

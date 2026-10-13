@@ -1,0 +1,35 @@
+package com.sunbeam;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.TreeSet;
+
+public class Program {
+
+	public static void main(String[] args) {
+		TreeSet<String> set = new TreeSet<>(); 
+		Collections.addAll(set, "A","B","C","D","E","F"); 
+		
+		System.out.println("set : " + set);
+		System.out.println("First : " + set.first());
+		System.out.println("Last : " + set.last());
+		//headSet(), tailSet(), subSet()
+		System.out.println("headSet : " + set.headSet("D")); //[A, B, C]
+		System.out.println("tailSet : " + set.tailSet("C")); //[C, D, E, F]
+		System.out.println("subSet : " + set.subSet("B", "E")); //[B, C, D]
+		
+		//higer(), lower()
+		System.out.println("higher : " + set.higher("B")); // C
+		System.out.println("Lower : " + set.lower("D")); // C
+		
+		// descendingIterator()
+		Iterator<String> itr = set.descendingIterator(); 
+		while(itr.hasNext()) {
+			String e = itr.next();
+			System.out.print(e + " ");
+		}
+		
+
+	}
+
+}

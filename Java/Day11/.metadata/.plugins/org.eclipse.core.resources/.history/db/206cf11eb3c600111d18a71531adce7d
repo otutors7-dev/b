@@ -1,0 +1,125 @@
+package com.sunbeam;
+/*
+interface Printable{
+	void show(); 
+}
+interface Displayable{
+	void show(); 
+}
+//multiple interface inheritance will not lead to any ambiguity error
+// because interfaces doesn't contain any definitions
+//Java 7 Interfaces - No ambiguity
+class Test implements Printable , Displayable{
+	
+}
+public class Program {
+	public static void main(String[] args) {
+		
+	}
+}*/
+/*
+interface Printable{
+	void show(); 
+}
+interface Displayable{
+	void show(); 
+}
+class Test implements Printable , Displayable{
+
+	@Override
+	public void show() {
+		System.out.println("Test.show()");
+	}
+	
+}
+public class Program {
+	public static void main(String[] args) {
+		Printable p = new Test(); 
+		p.show();
+	}
+}*/
+/*
+interface Printable{
+	default void show() {
+		System.out.println("Printable.show()");
+	}
+}
+interface Displayable{
+	default void show() {
+		System.out.println("Displayable.show()");
+	}
+}
+//if two interfaces have default method with same signature and a class is inherited 
+//from that interface,
+//then it will lead to ambiguity.
+class Test implements Printable , Displayable{
+
+	
+	
+}
+public class Program {
+	public static void main(String[] args) {
+		Printable p = new Test(); 
+		p.show();
+	}
+}*/ 
+
+/*
+interface Printable{
+	default void show() {
+		System.out.println("Printable.show()");
+	}
+}
+interface Displayable{
+	default void show() {
+		System.out.println("Displayable.show()");
+	}
+}
+//if two interfaces have default method with same signature and a class 
+//is inherited from that interface, then it will lead to ambiguity.
+//this problem can be resolved by overriding method in sub-class.
+class Test implements Printable , Displayable{
+
+	@Override
+	public void show() {
+		System.out.println("Test.show()");
+	}
+}
+public class Program {
+	public static void main(String[] args) {
+		Test t = new Test(); 
+		t.show();
+	}
+}*/ 
+
+
+class Printable{
+	public void show() {
+		System.out.println("Printable.show()");
+	}
+}
+interface Displayable{
+	default void show() {
+		System.out.println("Displayable.show()");
+	}
+}
+//Super class wins (no override) 
+//when same signature method is inherited from a super-class
+//and a super-interface, the super-class method gets precedance.
+//no compiler error for ambiguity
+
+class Test extends Printable implements Displayable{
+
+	
+}
+public class Program {
+	public static void main(String[] args) {
+		Test t = new Test(); 
+		t.show();
+	}
+}
+
+
+
+
+
