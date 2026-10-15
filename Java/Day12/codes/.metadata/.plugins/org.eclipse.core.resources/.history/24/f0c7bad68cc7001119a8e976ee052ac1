@@ -1,0 +1,6 @@
+package com.sunbeam;
+
+@DevInfo(value = "Sagar" , company = "Sunbeam Infocom" , designation = "SR SW ENGG")
+public class MyClass {
+
+}

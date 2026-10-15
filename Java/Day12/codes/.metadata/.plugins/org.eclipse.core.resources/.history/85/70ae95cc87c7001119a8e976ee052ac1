@@ -1,0 +1,7 @@
+package com.sunbeam;
+
+public @interface DevInfo {
+	String value( ); 
+	String company() default "Sunbeam Infotech"; 
+	String designation( ) default "SW DEV"; 
+}

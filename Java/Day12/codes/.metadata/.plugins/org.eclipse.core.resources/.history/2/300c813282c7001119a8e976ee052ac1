@@ -1,0 +1,22 @@
+package com.sunbeam;
+enum Elements{
+	 H(1, "Hydrogen"),
+     HE(2, "Helium"),
+     LI(3, "Lithium");
+	
+	private int elementNumber; 
+	private String elementName;
+	private Elements(int elementNumber, String elementName) {
+		this.elementNumber = elementNumber;
+		this.elementName = elementName;
+	} 
+	
+}
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

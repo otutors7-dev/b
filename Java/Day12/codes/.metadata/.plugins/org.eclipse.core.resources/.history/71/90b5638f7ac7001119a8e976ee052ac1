@@ -1,0 +1,21 @@
+package com.sunbeam;
+
+import java.util.Comparator;
+import java.util.function.BinaryOperator;
+
+public class Program {
+
+	public static void main(String[] args) {
+		//static method reference 
+		//BinaryOperator<Integer> op = (a,b) -> Integer.sum(a, b);
+		BinaryOperator<Integer> op = Integer::sum; 
+		int a = 10 , b = 20; 
+		Integer r = op.apply(a, b); 
+		System.out.println("res : " + r);
+		
+		//non-static method reference // non-static method of a class
+		//Comparator<String> cmp = (x,y) -> x.compareTo(y);
+		Comparator<String> cmp = String::comparaTo; 
+	}
+
+}

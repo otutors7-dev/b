@@ -1,0 +1,11 @@
+package com.sunbeam;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+
+@Target({ElementType.FIELD,ElementType.METHOD,ElementType.CONSTRUCTOR,ElementType.LOCAL_VARIABLE})
+public @interface DevInfo {
+	String value( ); 
+	String company() default "Sunbeam Infotech"; 
+	String designation( ) default "SW DEV"; 
+}

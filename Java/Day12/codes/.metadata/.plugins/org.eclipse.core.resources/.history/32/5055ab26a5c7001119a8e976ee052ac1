@@ -1,0 +1,61 @@
+package com.sunbeam;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedMap;
+
+public class Program {
+
+	public static void main1(String[] args) {
+		writeMovies( ); 
+	}
+	public static void main(String[] args) {
+		SortedMap<String, Charset> map = Charset.availableCharsets(); 
+		//System.out.println("Total : " +map.size());
+		map.forEach((K,V) -> System.out.println(K + "--" + V));
+	}
+
+	
+	
+
+
+	public static void writeMovies() {
+		List<Movie> list = new ArrayList<>();
+		list.add(new Movie(1, "Star Wars", 7.5));
+		list.add(new Movie(2, "Godfather", 8.0));
+		list.add(new Movie(3, "Hidden Figures", 7.0));
+		list.add(new Movie(4, "Bruce Almighty", 6.5));
+		list.add(new Movie(5, "Forest Gump", 8.5));
+		
+		try(FileOutputStream fout = new FileOutputStream("Movies.db")){
+			try(PrintStream out = new PrintStream(fout)){
+				for (Movie m : list) {
+					out.printf("%-20d%-15s%-10.2f\n",m.getId(),m.getTitle(),m.getRating()); 
+				}
+			}//out.close(); 
+			System.out.println("Movies saved");
+		}//fout.close(); 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+
+	
+}
+
+
+
+

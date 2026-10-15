@@ -1,0 +1,41 @@
+package com.sunbeam;
+enum Elements{
+	 H(1, "Hydrogen"),
+     HE(2, "Helium"),
+     LI(3, "Lithium");
+	
+	private int elementNumber; 
+	private String elementName;
+	private Elements(int elementNumber, String elementName) {
+		this.elementNumber = elementNumber;
+		this.elementName = elementName;
+	}
+	public int getElementNumber() {
+		return elementNumber;
+	}
+	public void setElementNumber(int elementNumber) {
+		this.elementNumber = elementNumber;
+	}
+	public String getElementName() {
+		return elementName;
+	}
+	public void setElementName(String elementName) {
+		this.elementName = elementName;
+	} 
+	
+	
+}
+public class Program {
+
+	public static void main(String[] args) {
+		Elements[] elVal = Elements.values(); 
+		for (Elements e : elVal) {
+			System.out.println(e.getElementNumber() + "." + e.getElementName());
+		}
+	}
+
+}
+
+
+
+
