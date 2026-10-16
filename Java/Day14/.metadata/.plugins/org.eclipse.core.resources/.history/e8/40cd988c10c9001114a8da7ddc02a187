@@ -1,0 +1,70 @@
+package com.sunbeam;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Types;
+import java.util.Scanner;
+
+public class Program {
+	public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver"; 
+	public static final String DB_URl = "jdbc:mysql://localhost:3306/test"; 
+	public static final String DB_USER = "root";
+	public static final String DB_PASSWORD = "manager";
+	static {
+		try {
+			Class.forName(DB_DRIVER);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+	}
+	public static void main1(String[] args) {
+		Scanner sc = new Scanner(System.in); 
+		Connection con = null; 
+		try {
+			con = DriverManager.getConnection(DB_URl, DB_USER, DB_PASSWORD); 
+			con.setAutoCommit(false);
+			
+			System.out.print("Enter the ammount to be transferred : ");
+			double ammount = sc.nextDouble(); 
+			
+			System.out.print("Enter the srcId : ");
+			int id1 = sc.nextInt();
+			
+			System.out.print("Enter the destId : ");
+			int id2 = sc.nextInt();
+			
+			String sql1 = "UPDATE accounts SET balance = balance - ? WHERE id = ?"; 
+			PreparedStatement stmt1 = con.prepareStatement(sql1); 
+ 			stmt1.setDouble(1, ammount);
+ 			stmt1.setInt(2, id1);
+ 			int cnt1 = stmt1.executeUpdate(); 
+ 			
+ 			String sql2 = "UPDATE accounts SET balance = balance + ? WHERE id = ?"; 
+ 			PreparedStatement stmt2 = con.prepareStatement(sql2); 
+ 			stmt2.setDouble(1, ammount);
+ 			stmt2.setInt(2, id2);
+ 			int cnt2 = stmt2.executeUpdate(); 
+		
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		finally {
+			
+		}
+	}
+	
+}
+
+
+
+
+
+
+
+
+

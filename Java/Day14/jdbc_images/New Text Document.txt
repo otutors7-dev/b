@@ -1,0 +1,56 @@
+1. Read Uncommitted (Dirty Reads)
+
+Imagine a student starts writing notes in a library book with a pencil but hasn’t erased the wrong parts yet. 
+Another student comes along, looks at the book, and copies those notes — 
+even though the first student might later erase them.
+
+You can see unfinalized changes that may later disappear.
+
+Like copying notes that might be erased → dirty reads.
+
+*************************************************************************
+
+2. Read Committed (Non-repeatable Reads)
+
+You go to the library, open a book, and read a chapter.
+Later, you reopen the same chapter during the same visit, but meanwhile, 
+another student has replaced that chapter with an updated version.
+
+The second time you read, the content is different.
+
+This is a non-repeatable read: you don’t see dirty (unfinished) work, but you can see changes between reads.
+
+*******************************************
+
+3. Repeatable Read (Phantom Reads)
+
+
+You open a book and read Chapter 5. During your visit, 
+no one can edit Chapter 5 — it will stay the same no matter how many times you check.
+But, while you’re reading, another student adds a brand new Chapter 6 or removes a Chapter 4.
+
+So, your Chapter 5 is safe and consistent → no dirty or non-repeatable reads.
+
+But new chapters appear (phantoms) when you scan through the table of contents again.
+
+*******************************************
+
+4. Serializable
+The library only lets one student use a book at a time. 
+If you’re reading, no one else can read or add/change chapters until you’re completely done.
+
+Transactions are executed one after another, like standing in line.
+
+Absolutely no dirty reads, non-repeatable reads, or phantom reads.
+
+But it’s the slowest, since students have to wait.
+
+
+************
+Read Uncommitted: Copying notes someone hasn’t finalized.
+
+Read Committed: Reading the same chapter twice, but it changes between reads.
+
+Repeatable Read: Chapter stays the same, but new chapters might appear.
+
+Serializable: Only one person can use the book at a time — total isolation.
