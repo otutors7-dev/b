@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Orignal DOM Manipulation</h1>
+    <button onclick="getProducts()">Get Products</button>
+    <ol id="root">
+
+    </ol>
+    <script>
+        function getProducts() {
+            const ol = document.getElementById('root');
+            const st = window.performance.now()
+            for (let i = 1; i <= 100000; i++) {
+                const li = document.createElement("li", null)
+                li.textContent = "Product - " + i
+                ol.append(li)
+            }
+            const et = window.performance.now()
+            const diff = et - st
+            console.log(`Total Time Taken - ${diff.toFixed(2)} ms`)
+        }
+        // 10 -> 0.20 ms
+        // 100 -> 0.40 ms
+        // 1000 -> 2.60 ms
+        // 10000 -> 15.60 ms
+    </script>
+</body>
+
+</html>

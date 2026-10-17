@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Added the react library -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+</head>
+
+<body>
+    <h1>Virtual DOM Manipulation</h1>
+    <button onclick="getProducts()">Get Products</button>
+    <div id="root">
+
+    </div>
+    <script>
+        function getProducts() {
+            const og_container = document.getElementById('root');
+            const v_container = ReactDOM.createRoot(og_container);
+            const arr_li = []
+            const st = window.performance.now()
+            for (let i = 1; i <= 100000; i++) {
+                const li = React.createElement("li", null, "Product - " + i)
+                arr_li.push(li)
+            }
+            const ol = React.createElement("ol", null, arr_li);
+            v_container.render(ol)
+            const et = window.performance.now()
+            const diff = et - st
+            console.log(`Total Time Taken - ${diff.toFixed(2)} ms`)
+        }
+        // 10 -> 3.30 ms (0.20 ms)
+        // 100 -> 2.50 ms (0.40 ms)
+        // 1000 -> 4.30 ms (2.60 ms)
+        // 2500 ->
+        // 5000 -> ?
+        // 10000 -> 12.20 ms (15.60 ms)
+    </script>
+</body>
+
+</html>

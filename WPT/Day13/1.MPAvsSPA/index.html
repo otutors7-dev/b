@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA</title>
+</head>
+
+<body>
+    <nav>
+        <button onclick="homePage()">Home</button>
+        <button onclick="aboutUsPage()">About us</button>
+        <button onclick="contactUsPage()">Contact us</button>
+    </nav>
+    <div id="root"></div>
+    <script>
+        const root = document.getElementById('root');
+
+        function homePage() {
+            const home = `
+                <h1>Home Page</h1>
+                <p>This is a Home page</p>
+            `
+            root.innerHTML = home
+        }
+        function aboutUsPage() {
+            const about = `
+                <h1>About us Page</h1>
+                <p>This is a About us page</p>
+            `
+            root.innerHTML = about
+        }
+        function contactUsPage() {
+            const contact = `
+                <h1>contact us Page</h1>
+                <p>This is a contact us page</p>
+            `
+            root.innerHTML = contact
+        }
+
+    </script>
+</body>
+
+</html>
