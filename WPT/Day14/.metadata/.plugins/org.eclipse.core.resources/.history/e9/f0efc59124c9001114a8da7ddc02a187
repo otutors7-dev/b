@@ -1,0 +1,43 @@
+package com.sunbeam;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in); 
+		System.out.print("Enter the srcPath : ");
+		String srcPath = sc.next(); 
+		
+		Path path = Paths.get(srcPath); 
+		if(!Files.exists(path)) {
+			System.out.println("File / Directory Not exist");
+			System.exit(0); 
+		}
+		else if(Files.isDirectory(path)) {
+			Files.list(path).forEach(e -> System.out.println(e)); 
+		}
+		else if(Files.isRegularFile(path)) {
+			System.out.println("Name : " + path.getFileName());
+			System.out.println("Parent : " + path.getParent());
+			System.out.print("File Permissions : ");
+			if(Files.isReadable(path))
+				System.out.print("Readable,");
+			if(Files.isWritable(path))
+				System.out.print("Writable");
+			if(Files.isExecutable(path))
+				System.out.println("Executable");
+		}
+		else 
+			System.out.println("Niether file nor Directory");
+	}
+
+}
+
+
+
+

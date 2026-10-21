@@ -1,0 +1,30 @@
+package com.sunbeam;
+class Outer{
+	int num1 = 10;
+	static int num2 = 20; 
+	int num3 = 30; 
+	
+	static class Inner{
+		int num1 = 100;
+		static int num2 = 200; 
+		int num4 = 40;
+		
+		public void printRecord( ) {
+			System.out.println("num1 : " +num1); //10 
+			System.out.println("num2 : " +Outer.num2); //20 
+			//System.out.println("num3 : " +num3);
+			System.out.println("num4 : " +num4);// 40 
+			System.out.println("num2 : " +Inner.num2);//200 
+		}
+	}
+	
+}
+public class Program {
+
+	public static void main(String[] args) {
+		Outer.Inner inObj = new Outer.Inner(); 
+		inObj.printRecord();
+
+	}
+
+}

@@ -1,0 +1,29 @@
+package com.sunbeam;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in); 
+		System.out.print("Enter the srcPath : ");
+		String srcPath = sc.next(); 
+		
+		Path path = Paths.get(srcPath); 
+		if(!Files.exists(path)) {
+			System.out.println("File / Directory Not exist");
+			System.exit(0)
+		}
+		else if(Files.isDirectory(path)) {
+			Files.list(path).forEach(e -> System.out.println(e))
+		}
+	}
+
+}
+
+
+
+

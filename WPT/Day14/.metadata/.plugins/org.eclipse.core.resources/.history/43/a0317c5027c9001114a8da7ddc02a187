@@ -1,0 +1,43 @@
+package com.sunbeam;
+
+import java.io.FileInputStream;
+import java.util.Scanner;
+
+public class Program {
+	static final String EMP_FILE = "emp.csv";
+	private static void parseEmp(String line) {
+		String[] parts = line.split(",");
+		
+	}
+	public static void main1(String[] args) {
+		try(FileInputStream fin = new FileInputStream(EMP_FILE)){
+			try(Scanner sc = new Scanner(fin)){
+				while(sc.hasNextLine()) {
+					String line = sc.nextLine(); 
+					System.out.println(line);
+				}
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	public static void main(String[] args) {
+		try(FileInputStream fin = new FileInputStream(EMP_FILE)){
+			try(Scanner sc = new Scanner(fin)){
+				while(sc.hasNextLine()) {
+					String line = sc.nextLine(); 
+					parseEmp(line); 
+				}
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+}
+
+
