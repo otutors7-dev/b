@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.title {
+    @apply text-4xl font-medium p-2
+}
