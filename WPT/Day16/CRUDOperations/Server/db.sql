@@ -3,3 +3,4 @@ CREATE TABLE products(
     name VARCHAR(20),
     price DECIMAL(9,2)
 );
+

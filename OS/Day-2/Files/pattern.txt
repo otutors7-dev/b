@@ -1,0 +1,10 @@
+dc
+dac
+dec
+duc
+dmc
+doc
+d*c
+dxyc
+etc
+c 
